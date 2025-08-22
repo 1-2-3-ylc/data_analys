@@ -1,0 +1,5 @@
+{
+    "files.encoding": "utf8",
+    "localAIAssistant.apiLLM.apiURL.endpoint": "http://localhost:3000/v1",
+    "localAIAssistant.apiLLM.config.apiAuthRequired": true
+}
