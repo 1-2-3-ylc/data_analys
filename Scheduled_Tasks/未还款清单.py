@@ -99,7 +99,7 @@ if __name__ == '__main__':
 
     path1 = 'F:/需求/倩姐需求/订单还款详情/'
     # 实时手动跑
-    T.my_job(hour, minute, path1)
+    # T.my_job(hour, minute, path1)
     print('正在创建定时任务...')
     scheduler = BackgroundScheduler()
     # 每天9点30分开始执行

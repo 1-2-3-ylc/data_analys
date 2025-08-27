@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import pymysql
 import warnings
-
+import gc
 from apscheduler.triggers.cron import CronTrigger
 from dateutil.utils import today
 
@@ -175,6 +175,9 @@ class JD_ZFB_Data:
             '出库', '进件出库率', '取消率', '人审拒绝率', '出库前强拒比例', '无法联系占比', '订单出库率']].fillna(0)
         with pd.ExcelWriter(path + f'京东转化数据_{today}.xlsx', engine='xlsxwriter') as writer:
             df_jd.to_excel(writer, sheet_name='京东转化')
+        del df_jd
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
     def jd_zfb(self, df, path):
         today = datetime.now().strftime('%Y%m%d')
@@ -192,11 +195,17 @@ class JD_ZFB_Data:
         with pd.ExcelWriter(path + f'毛利率_{today}.xlsx', engine='xlsxwriter') as writer:
             df_jd_data.to_excel(writer, sheet_name='京东', index=False)
             df_zfb_data.to_excel(writer, sheet_name='支付宝', index=False)
+        del df_jd_data, df_zfb_data
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
     def get_model(self, df, path):
         df = df[(df.下单日期>='2025-07-21')&(df.下单日期<='2025-07-27')&(df.归属渠道=='京东渠道')&(df.是否出库==1)&(df.purchase_amount>0)]
         df_group = df.groupby('机型').agg({'order_number': 'count', 'all_rental': 'mean', 'all_deposit': 'mean'}).rename(columns={'order_number': '数量', 'all_rental': '总租金均值', 'all_deposit': '总押金均值'})
         df_group.to_excel(path+'京东渠道机型转化.xlsx')
+        del df_group
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
     def run(self, hour, minute, path):
         today = datetime.now().strftime('%Y%m%d')
@@ -242,3 +251,4 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         # 用户按下 Ctrl+C 或系统要求退出时，优雅地关闭调度器
         scheduler.shutdown()
+        gc.collect()

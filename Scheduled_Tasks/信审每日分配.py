@@ -11,7 +11,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 import warnings
 warnings.filterwarnings("ignore")
-
+import gc
 import pymysql
 from sqlalchemy import create_engine
 import json
@@ -337,6 +337,10 @@ class Task_Allocation:
         #     df_ms_group2.to_excel(writer, sheet_name='免审_4月')
         #     df_ms_group3.to_excel(writer, sheet_name='免审_5月')
         #     df_ms_group4.to_excel(writer, sheet_name='免审_6月')
+        # 添加回收内存功能
+        del df2_all_merge_group
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
 
 
@@ -369,3 +373,4 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         # 用户按下 Ctrl+C 或系统要求退出时，优雅地关闭调度器
         scheduler.shutdown()
+        gc.collect()

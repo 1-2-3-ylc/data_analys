@@ -6,7 +6,7 @@ from Cython.Compiler.Errors import message
 plt.rcParams["font.sans-serif"]=["SimHei"]
 plt.rcParams["axes.unicode_minus"]=False
 import time
-
+import gc
 import warnings
 warnings.filterwarnings("ignore")
 import pymysql
@@ -164,13 +164,17 @@ class Rate:
         self.data_tips(df_zm_zh_30, df_ss_zh_30)
         print('数据写入完成...')
 
+        del df_zm_zh_30, df_ss_zh_30, df_zm_zh_7, df_ss_zh_7, df_48h, df_zm_48h, df_ss_48h
+        gc.collect()
+        print("回收内存执行完毕！\n")
+
 
 if __name__ == '__main__':
     hour = 10
     minute = 30
     path = r'\\digua\迪瓜租机\002数据监测\2.发货率/'
     r = Rate()
-    r.my_job(hour, minute, path)
+    # r.my_job(hour, minute, path)
 
     print('正在创建定时任务...')
     scheduler = BackgroundScheduler()
@@ -194,3 +198,4 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         # 用户按下 Ctrl+C 或系统要求退出时，优雅地关闭调度器
         scheduler.shutdown()
+        gc.collect()

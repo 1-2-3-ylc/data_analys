@@ -19,6 +19,7 @@ from datetime import timedelta ,datetime, timezone
 import time
 import sys
 from pathlib import Path
+import gc
 from apscheduler.schedulers.background import BackgroundScheduler
 # 将项目根目录添加到 sys.path
 sys.path.append(str(Path(__file__).parent.parent))  # 依实际路径调整
@@ -133,6 +134,12 @@ class Douyin_Order:
         with pd.ExcelWriter(path + f'抖音每日订单数据统计_{now}.xlsx', engine='openpyxl') as writer:
             df_dy_res.to_excel(writer, sheet_name=now, index=False)
 
+        # 显式删除不再需要的变量
+        del df_dy_res
+        # 调用垃圾回收
+        gc.collect()
+        print("回收内存执行完毕！\n")
+
 
 if __name__ == '__main__':
     DY_O = Douyin_Order()
@@ -153,6 +160,7 @@ if __name__ == '__main__':
     print('定时任务执行完毕,请查看数据...')
     # 模拟主程序
     try:
+
         while True:
             next_run_time = dy_job.next_run_time
             if next_run_time:
@@ -166,6 +174,8 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         # 用户按下 Ctrl+C 或系统要求退出时，优雅地关闭调度器
         scheduler.shutdown()
+        # 程序退出前进行垃圾回收
+        gc.collect()
 
 
 

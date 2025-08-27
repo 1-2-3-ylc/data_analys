@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import pymysql
 import warnings
-
+import gc
 from apscheduler.triggers.cron import CronTrigger
 from dateutil.utils import today
 
@@ -329,6 +329,9 @@ class Conversion_Data:
         with pd.ExcelWriter(path+f'京东转化/京东转化数据_{today}.xlsx', engine='xlsxwriter') as writer:
             df_jd_group.to_excel(writer,sheet_name='京东转化数据')
         print('数据写入完毕！')
+        del df_jd_group
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
 
 
@@ -393,6 +396,9 @@ class Conversion_Data:
             df_ss_uv_7.to_excel(writer, sheet_name='近7日商品ID转化')
             df_ss_uv_15.to_excel(writer, sheet_name='近15日商品ID转化')
         print('数据写入完毕！')
+        del df_model_group_now, df_model_group_7, df_model_group_15, df_model_group_now_zm, df_model_group_7_zm, df_model_group_15_zm, df_model_group_now_jd, df_model_group_7_jd, df_model_group_15_jd, df_zm_uv, df_zm_uv_7, df_zm_uv_15, df_ss_uv, df_ss_uv_7, df_ss_uv_15
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
     def zfb_order(self, hour, minute, path, hours):
         # 判断当前日期是不是本月的第一天，如果是则从上个月第一天开始取数，如果不是则从本月第一天开始取数
@@ -444,6 +450,9 @@ class Conversion_Data:
             df_zfb_group[:-1].to_excel(writer, sheet_name='支付宝订单')
         print('数据写入完毕！')
         self.clean.send_dingtalk_message(self.webhook, self.secret, messages)
+        del df_zfb_group, df_zfb_group_new, df_zfb, df2_zfb
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
     # 机型转化——月度
     def month_model(self, hour, minute, path, hours, is_current_month=False):
@@ -489,6 +498,9 @@ class Conversion_Data:
             df_model_group_zm.to_excel(writer, sheet_name='芝麻租物月度机型转化')
             df_model_group_jd.to_excel(writer, sheet_name='京东渠道月度机型转化')
         print('数据写入完毕！')
+        del df_model_group, df_model_group_zm, df_model_group_jd
+        gc.collect()
+        print("回收内存执行完毕！\n")
     # 京东每月签收订单数据
     def jd_qs_order_by_month(self, hour, minute, path):
         date = ((datetime.today() - pd.DateOffset(months=1)).replace(day=1)).strftime('%Y-%m-%d')
@@ -516,6 +528,9 @@ class Conversion_Data:
             df_jd_by_month.to_excel(writer, sheet_name='京东月签收订单数据')
 
         print('数据写入完毕！')
+        del df_jd_by_month
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
 if __name__ == '__main__':
     cd = Conversion_Data()
@@ -523,7 +538,7 @@ if __name__ == '__main__':
     minute = 10
     path = r'\\digua\迪瓜租机\002数据监测\3.转化数据/'
     path1 = r'\\digua\迪瓜租机\002数据监测\9.京东每月签收订单明细/'
-    # cd.zfb_order(hour, minute, path, 24)
+    # cd.zfb_order(9, minute, path, 24)
     # cd.jd_job(10, 15, path, 24)
     # cd.my_job(hour, minute, path, 18)
     print('正在创建定时任务...')
@@ -591,3 +606,4 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         # 用户按下 Ctrl+C 或系统要求退出时，优雅地关闭调度器
         scheduler.shutdown()
+        gc.collect()

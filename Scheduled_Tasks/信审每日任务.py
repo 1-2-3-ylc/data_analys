@@ -4,6 +4,7 @@ import pymysql
 from datetime import datetime, timezone
 import time
 import warnings
+import gc
 warnings.filterwarnings('ignore')
 from apscheduler.schedulers.background import BackgroundScheduler
 from Class_Model.All_Class import Data_Clean
@@ -112,6 +113,11 @@ class Scheduled:
         df_group = self.run()
         with pd.ExcelWriter(path + f'每日信审需求数据2_{Today2}.xlsx', engine='xlsxwriter') as writer:
             df_group.to_excel(writer, sheet_name='每日进入信审数据')
+        # 显式删除不再需要的变量
+        del df_group
+        # 调用垃圾回收
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
 if __name__ == '__main__':
     hour = 18
@@ -141,3 +147,4 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         # 用户按下 Ctrl+C 或系统要求退出时，优雅地关闭调度器
         scheduler.shutdown()
+        gc.collect()

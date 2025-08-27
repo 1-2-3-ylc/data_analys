@@ -1,5 +1,5 @@
 from calendar import month
-
+import gc
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -120,6 +120,10 @@ class Tips:
         with pd.ExcelWriter(path1 + f'到期订单_信审2_{now_date}.xlsx', engine='openpyxl') as writer:
             df_xs.to_excel(writer, sheet_name=now_date, index=False)
 
+        del df_xs
+        gc.collect()
+        print("回收内存执行完毕！\n")
+
 if __name__ == '__main__':
     T = Tips()
     # s = T.run()
@@ -153,3 +157,4 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         # 用户按下 Ctrl+C 或系统要求退出时，优雅地关闭调度器
         scheduler.shutdown()
+        gc.collect()

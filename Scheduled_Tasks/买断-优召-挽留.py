@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 plt.rcParams["font.sans-serif"]=["SimHei"]
 plt.rcParams["axes.unicode_minus"]=False
 from apscheduler.schedulers.background import BackgroundScheduler
-
+import gc
 import warnings
 warnings.filterwarnings("ignore")
 import requests
@@ -81,7 +81,7 @@ class myw:
         sql_yz = f'''
         select
         om.id order_id, om.create_time 下单时间,turt.discount_status, turt.id_card_num,tdi.money tdi_money,om.order_number ,turt.create_time 优召时间,turt.complete_time
-        ,tdi.type,  tdi.create_time 优惠订单创建时间
+        ,tdi.type,  tdi.create_time 优惠订单创建时间, tdi.use_type
         , tprm.all_rental, tprm.all_deposit, tprm.purchase_amount, om.status, tod.new_actual_money, date_format(turt.complete_time, '%Y-%m') 月份
         , tos.money 分期金额
         from db_digua_business.t_user_recall_task turt 
@@ -172,8 +172,11 @@ class myw:
                     (df_yz.下单日期 >= df_yz.优召日期) & (df_yz.下单日期 <= df_yz.完成日期)), 0, 1)
         df_yz.loc[:, '出库订单数'] = np.where((df_yz.order_number.notna()), 1,0)  # (df_yz.status.isin([2, 3, 4, 5, 6, 8, 15]))&
         # '优惠卷类型：1、商品满减券；2、首期优惠券；3、商品延期券；4、商品买断券', 5、租中优惠券
-        df_yz.loc[:, '优惠券金额'] = np.where((df_yz.discount_status == 'Y') & (df_yz.type.isin([1, 5])),
-                                              df_yz.分期金额 * (1 - df_yz.tdi_money / 100),0)  # (df_yz.discount_status=='Y')&
+        df_yz.loc[:, '优惠券金额'] = np.where(
+            (df_yz.discount_status == 'Y') & (df_yz.use_type == 1) & (df_yz.type == 5), df_yz.tdi_money,
+            np.where((df_yz.discount_status == 'Y') & (df_yz.use_type == 2) & (df_yz.type == 5),
+                     df_yz.分期金额 * (1 - df_yz.tdi_money / 100), 0)
+        )
         df_yz.loc[:, '买断价'] = np.where(df_yz.出库订单数 == 1, df_yz.new_actual_money, 0)
         df_yz.loc[:, '采购成本'] = np.where(df_yz.出库订单数 == 1, df_yz.purchase_amount, 0)
         df_yz_g = df_yz.groupby('月份').agg(
@@ -226,7 +229,11 @@ class myw:
             df_lzy_tq3.to_excel(writer, sheet_name='提前买断明细', index=False)
             df_lzy_dq.to_excel(writer, sheet_name='到期买断')
             df_yz_g.to_excel(writer, sheet_name='优召')
-            df_wl_g.to_excel(writer, sheet_name='挽留')
+            # df_wl_g.to_excel(writer, sheet_name='挽留')
+
+        del df_lzy_ts, df_lzy_tq2, df_lzy_tq3, df_lzy_dq, df_yz_g, df_wl_g
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
 if __name__ == '__main__':
     myw = myw()
@@ -264,3 +271,4 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         # 用户按下 Ctrl+C 或系统要求退出时，优雅地关闭调度器
         scheduler.shutdown()
+        gc.collect()

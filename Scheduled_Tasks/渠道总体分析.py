@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 plt.rcParams["font.sans-serif"]=["SimHei"]
 plt.rcParams["axes.unicode_minus"]=False
 from apscheduler.schedulers.background import BackgroundScheduler
-
+import gc
 import warnings
 warnings.filterwarnings("ignore")
 import requests
@@ -425,7 +425,7 @@ class Channel:
         print('数据获取完毕...')
         return df_all2, df_ss_group2, df_zm_group2,df, df2,df_risk_examine, df_lhyy_group, info, df_jd_group_new, df_jd_group_new2, df_jd_group_new3
 
-    # 设置钉钉机器人发送消息
+    # 设置钉钉机器人发送消息,联合运营（已停止）
     # def send_dingtalk_message(self, webhook, secret, message):
     #     # 计算签名（如果有设置）
     #     if secret:
@@ -467,7 +467,9 @@ class Channel:
         # 通过钉钉机器人发送消息
         # 要发送的消息内容
         # self.send_dingtalk_message(self.webhook, self.secret, info)
-
+        del df_all2, df_ss_group2, df_zm_group2,df, df2,df_risk_examine, df_lhyy_group, info, df_jd_group_new, df_jd_group_new2, df_jd_group_new3
+        gc.collect()
+        print("回收内存执行完毕！\n")
     # def my_job2(self, path, hour_date):
     #     Today = str(datetime.now().strftime('%Y%m%d%H'))
     #     print('现在执行的是定时任务2...')
@@ -483,6 +485,10 @@ class Channel:
             df_jd_group_new.to_excel(writer, sheet_name='京享租右卡', index=False)
             df_jd_group_new2.to_excel(writer, sheet_name='京东618活动', index=False)
             df_jd_group_new3.to_excel(writer, sheet_name='不去重京东数据')
+
+        del df_all2, df_ss_group2, df_zm_group2, df, df2, df_risk_examine, df_lhyy_group, info, df_jd_group_new, df_jd_group_new2, df_jd_group_new3
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
 
 if __name__ == '__main__':
@@ -508,7 +514,7 @@ if __name__ == '__main__':
     print('定时任务创建完毕...\n正在执行定时任务my_job...')
     print(scheduler.get_jobs())
     scheduler.start()
-    ch.my_job(hour, minute, path, path2,  18)
+    # ch.my_job(hour, minute, path, path2,  18)
     # ch.my_job_jd(hour_jd, minute_jd, path_jd, 24)
     # 模拟主程序
     try:
@@ -536,3 +542,4 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         # 用户按下 Ctrl+C 或系统要求退出时，优雅地关闭调度器
         scheduler.shutdown()
+        gc.collect()

@@ -7,7 +7,7 @@ from apscheduler.triggers.cron import CronTrigger
 plt.rcParams["font.sans-serif"] = ["SimHei"]
 plt.rcParams["axes.unicode_minus"] = False
 from apscheduler.schedulers.background import BackgroundScheduler
-
+import gc
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -302,6 +302,8 @@ class Rejected_Number:
                 df_jl_stages_news.to_excel(writer, sheet_name='出库订单', index=False)
                 df_jl_stages_news_g.to_excel(writer, sheet_name='首逾订单')
             print('数据写入完毕！')
+            del df_jl_stages_news, df_jl_stages_news_g
+            gc.collect()
 
     # 每周一首逾定时任务
     def my_job_monday(self, hour, minute, path):
@@ -328,6 +330,9 @@ class Rejected_Number:
             df_jl_stages_news.to_excel(writer, sheet_name='出库订单', index=False)
             df_jl_stages_news_g.to_excel(writer, sheet_name='首逾订单')
         print('数据写入完毕！')
+        del df_jl_stages_news, df_jl_stages_news_g
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
     def my_job(self, hour, minute, path):
         # 获取每月的月份和第一天
@@ -345,6 +350,10 @@ class Rejected_Number:
             df_jl_new2_group.to_excel(writer, sheet_name='拒量数据明细')
             df_jl_name_new.to_excel(writer, sheet_name='出库单分配人', index=False)
         print('数据写入完毕...')
+
+        del df_jl_new, df_jl_new_group, df_jl_new2_group, df_jl_name_new, df_stages
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
 if __name__ == '__main__':
     hour = 13
@@ -395,3 +404,4 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         # 用户按下 Ctrl+C 或系统要求退出时，优雅地关闭调度器
         scheduler.shutdown()
+        gc.collect()

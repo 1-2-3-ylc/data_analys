@@ -7,6 +7,7 @@ plt.rcParams["axes.unicode_minus"]=False
 from apscheduler.schedulers.background import BackgroundScheduler
 import calendar
 import warnings
+import gc
 warnings.filterwarnings("ignore")
 import pymysql
 import time
@@ -224,6 +225,9 @@ class Channel_Analyse:
         print('数据写入完毕！\n')
         # 钉钉机器人发送数据
         self.clean.send_dingtalk_message(self.webhook, self.secret, message)
+        del df_audit, df_audit_1, df_audit_2
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
     def run(self, hour):
         # 获取数据
@@ -270,6 +274,10 @@ class Channel_Analyse:
             hkhz_jd_group.to_excel(writer, sheet_name='京东商家')
             hkhz_zfb_group.to_excel(writer, sheet_name='支付宝商家')
 
+        del df_jd_group, df_zfb_group, hkhz_jd_group, hkhz_zfb_group
+        gc.collect()
+        print("回收内存执行完毕！\n")
+
     # 设置定时任务
     def my_job_channel(self, path, hour, path1=None):
         df, df2, df_risk_examine, df_contain = self.run(hour)
@@ -290,6 +298,9 @@ class Channel_Analyse:
         # 审核提醒
         if path1 is not None:
             self.audit(path1)
+        del df_pivot_new_qc, df_pivot_new_jj
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
 if __name__ == '__main__':
     path = r'\\digua\迪瓜租机\002数据监测\1.渠道对比/'
@@ -299,7 +310,7 @@ if __name__ == '__main__':
     # ca.audit(path1)
     # ca.classify_pc(path2, 24)
     # 实时需要，hour为sql中时间区间
-    # ca.my_job_channel(path, 18)
+    ca.my_job_channel(path, 18)
     # ca.my_job_channel(path, 14, path1)
 
     scheduler = BackgroundScheduler()
@@ -340,3 +351,4 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         # 用户按下 Ctrl+C 或系统要求退出时，优雅地关闭调度器
         scheduler.shutdown()
+        gc.collect()

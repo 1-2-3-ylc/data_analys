@@ -65,8 +65,9 @@ class All_Model:
         # 包含拒量的数据
         df_group_1 = df.groupby(model).agg({'order_id': 'size', '是否进件': 'sum', '前置拦截': 'sum'})  # , '机审通过件': 'sum', '风控通过件': 'sum'
         df_group_1.rename(columns={'order_id': '去重订单数', '是否进件': '进件数'}, inplace=True)
-        # 策略241205,策略241212,自有模型回捞策略
-        df_241205 = df[df.tips.str.contains(r'策略241205|策略241212|命中自有模型回捞策略|回捞策略250330命中', regex=True)==True]
+        # 策略241205,策略241212,自有模型回捞策略:2025.8.28：联合拒量订单
+        df_241205 = df[df.tips.str.contains(r'策略241205|策略241212|命中自有模型回捞策略|回捞策略250330命中|联合拒量订单', regex=True)==True]
+        print(df_241205[df_241205.tips.str.contains(r'联合拒量订单', regex=True)])
         # 拒绝
         df_241205 = df_241205[~df_241205.merchant_name.isin(['小蚂蚁租机', '兴鑫兴通讯', '人人享租', '崇胜数码', '喜卓灵租机', '喜卓灵新租机'])]
         df_241205.loc[:, '机审强拒_拒量'] = np.where(df_241205.qvt_risk=='1', 1, 0)

@@ -12,7 +12,7 @@ plt.rcParams["axes.unicode_minus"]=False
 from dateutil.relativedelta import relativedelta
 from datetime import datetime as dt
 import time
-
+import gc
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -275,6 +275,11 @@ class Cancel_Order:
             df_lhyy.to_excel(writer, sheet_name='联合运营', index=False)
             order_qx_all_play.to_excel(writer, sheet_name='曙光旭日计划', index=False)
 
+        del order_qx_all, df_rsjj, df_lhyy, order_qx_all_play
+        gc.collect()
+        print("回收内存执行完毕！\n")
+
+
 if __name__ == '__main__':
     hour = 10
     minute = 45
@@ -307,6 +312,7 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         # 用户按下 Ctrl+C 或系统要求退出时，优雅地关闭调度器
         scheduler.shutdown()
+        gc.collect()
 
 
 

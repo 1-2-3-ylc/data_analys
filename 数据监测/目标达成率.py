@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import pymysql
 import time
+import gc
 import warnings
 warnings.filterwarnings('ignore')
 from datetime import datetime, timezone
@@ -118,6 +119,9 @@ class Small_Page:
             df_month.to_excel(writer, sheet_name='月度达成率')
             df_year.to_excel(writer, sheet_name='年度达成率', index=False)
         print('写入数据完毕！')
+        del df, df_month, df_year
+        gc.collect()
+        print("回收内存执行完毕！\n")
 
 if __name__ == '__main__':
     hour = 12
@@ -146,3 +150,4 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         # 用户按下 Ctrl+C 或系统要求退出时，优雅地关闭调度器
         scheduler.shutdown()
+        gc.collect()
