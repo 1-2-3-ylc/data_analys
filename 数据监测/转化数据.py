@@ -78,7 +78,7 @@ class Conversion_Data:
                 and  date_format(om.create_time, '%Y-%m-%d')>='{date}'
                 and hour(om.create_time)<'{hour}'
                 -- and date_format(om.create_time, '%Y-%m-%d')>='2025-08-01'
-                -- and date_format(om.create_time, '%Y-%m-%d')<='2025-08-15'
+                -- and date_format(om.create_time, '%Y-%m-%d')<='2025-08-31'
                 ;
                 '''
         df_order = self.clean.query(sql1)
@@ -272,8 +272,8 @@ class Conversion_Data:
         sql_jd = ''' -- 京东外部订单关联表
                     select  tojo.create_time, tojo.order_id, tojo.status from db_digua_business.t_order_jd_out_no tojo
                     where 
-                    -- date_format(tojo.create_time, '%Y-%m-%d')>='2025-07-01'
-                    -- and date_format(tojo.create_time, '%Y-%m-%d')<='2025-08-05'
+                    -- date_format(tojo.create_time, '%Y-%m-%d')>='2025-08-01'
+                    -- and date_format(tojo.create_time, '%Y-%m-%d')<='2025-08-31'
                     tojo.create_time>=date_add(current_date, interval - 15 day) and tojo.create_time<current_date
                 '''
         df_jd = self.clean.query(sql_jd)
@@ -300,8 +300,8 @@ class Conversion_Data:
         left join db_digua_business.t_order_details as od on o.id = od.order_id 
         left join db_digua_business.t_order_jd_request tojr on tojr.order_number=o.order_number
         where 
-        -- date_format(tojr.create_time, '%Y-%m-%d')>='2025-07-01'
-        -- and date_format(tojr.create_time, '%Y-%m-%d')<='2025-08-05'
+        -- date_format(tojr.create_time, '%Y-%m-%d')>='2025-08-01'
+        -- and date_format(tojr.create_time, '%Y-%m-%d')<='2025-08-31'
         tojr.create_time>=date_add(current_date, interval -15 day)
         and tojr.request_json like '%IN_THE_LEASE%'
         '''
@@ -525,7 +525,7 @@ class Conversion_Data:
 
         print('京东每月签收订单数据计算完毕！\n正在写入数据...')
         with pd.ExcelWriter(path + f'京东每月签收订单数据_{today}.xlsx', engine='xlsxwriter') as writer:
-            df_jd_by_month.to_excel(writer, sheet_name='京东月签收订单数据')
+            df_jd_by_month.to_excel(writer, sheet_name='京东月签收订单数据', index=False)
 
         print('数据写入完毕！')
         del df_jd_by_month

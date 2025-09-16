@@ -67,10 +67,13 @@ class All_Model:
         df_group_1.rename(columns={'order_id': '去重订单数', '是否进件': '进件数'}, inplace=True)
         # 策略241205,策略241212,自有模型回捞策略:2025.8.28：联合拒量订单
         df_241205 = df[df.tips.str.contains(r'策略241205|策略241212|命中自有模型回捞策略|回捞策略250330命中|联合拒量订单', regex=True)==True]
-        print(df_241205[df_241205.tips.str.contains(r'联合拒量订单', regex=True)])
+        
         # 拒绝
         df_241205 = df_241205[~df_241205.merchant_name.isin(['小蚂蚁租机', '兴鑫兴通讯', '人人享租', '崇胜数码', '喜卓灵租机', '喜卓灵新租机'])]
-        df_241205.loc[:, '机审强拒_拒量'] = np.where(df_241205.qvt_risk=='1', 1, 0)
+        # 该机审拒量逻辑
+        # df_241205.loc[:, '机审强拒_拒量'] = np.where(df_241205.qvt_risk=='1', 1, 0)
+        # 跑4月以来的数据可以这样做，跑历史数据还是需要使用旧逻辑qvt_risk=='1'
+        df_241205.loc[:, '机审强拒_拒量'] = np.where(df_241205.order_id.notna(), 1, 0)
         df_241205.loc[:, '出库前强拒_拒量'] = np.where(((df_241205.qvt_risk == '0')|(df_241205.qvt_risk.isna()))&(df_241205.qvt_result == '1'), 1, 0)
         df_241205_group = df_241205.groupby(model).agg({'机审强拒_拒量': 'sum', '出库前强拒_拒量': 'sum', '是否出库': 'sum'})
         df_241205_group.rename(columns={'是否出库': '拒量出库'}, inplace=True)
@@ -655,17 +658,22 @@ class Data_Clean:
 
     # 删除拒量数据
     def drop_rejected_merchant(self, df):
-        df.drop(df[df['merchant_name'] == "小蚂蚁租机"].index, inplace=True)
-        df.drop(df[df['merchant_name'] == "兴鑫兴通讯"].index, inplace=True)
-        df.drop(df[df['merchant_name'] == "人人享租"].index, inplace=True)
-        df.drop(df[df['merchant_name'] == "崇胜数码"].index, inplace=True)
-        df.drop(df[df['merchant_name'] == "喜卓灵租机"].index, inplace=True)
-        df.drop(df[df['merchant_name'] == "喜卓灵新租机"].index, inplace=True)
+        # df.drop(df[df['merchant_name'] == "小蚂蚁租机"].index, inplace=True)
+        # df.drop(df[df['merchant_name'] == "兴鑫兴通讯"].index, inplace=True)
+        # df.drop(df[df['merchant_name'] == "人人享租"].index, inplace=True)
+        # df.drop(df[df['merchant_name'] == "崇胜数码"].index, inplace=True)
+        # df.drop(df[df['merchant_name'] == "喜卓灵租机"].index, inplace=True)
+        # df.drop(df[df['merchant_name'] == "喜卓灵新租机"].index, inplace=True)
+        # 将多行drop操作合并为一行
+        reject_merchants = ["小蚂蚁租机", "兴鑫兴通讯", "人人享租", "崇胜数码", "喜卓灵租机", "喜卓灵新租机"]
+        df.drop(df[df['merchant_name'].isin(reject_merchants)].index, inplace=True)
+                
         if '机审通过件' in df.columns:
             df = df[~((df.机审通过件 == 1) & (df.tips.str.contains(r'策略241205') == True))]
             df = df[~((df.机审通过件==1)&(df.tips.str.contains('策略241212', regex=False)==True))]
             df = df[~((df.机审通过件==1)&(df.tips.str.contains('命中自有模型回捞策略', regex=False)==True))]
             df = df[~((df.机审通过件==1)&(df.tips.str.contains('回捞策略250330命中', regex=False)==True))]
+            df = df[~((df.机审通过件==1)&(df.tips.str.contains('联合拒量订单', regex=False)==True))]
         return df
 
     # 订单去重
@@ -692,7 +700,7 @@ class Data_Clean:
         df.drop(df[df['activity_name'] == "1000单秘密计划-无优惠"].index, inplace=True)
         df.drop(df[df['activity_name'] == "1000单曙光计划"].index, inplace=True)
         df.drop(df[df['activity_name'] == "线下门店3个月试行"].index, inplace=True)
-        # 删除身份证空值行
+        # 删除订单状态空值行
         df.dropna(subset=["status2"], axis=0, inplace=True)
         # 删除重复订单
         df.drop_duplicates(subset=["order_id"], inplace=True)
@@ -777,7 +785,7 @@ class Data_Clean:
         df['已退款'] = np.where((df['风控通过件'] == 1) & (df['审核状态'] == '已退款'), 1, 0)
 
         df['是否二手'] = np.where(df['product_name'].str.contains(r'99新|95新|准新|90新'), 1, 0)
-        df['是否拒量'] = np.where(df.tips.str.contains(r'策略2412|命中自有模型回捞策略|回捞策略250330命中') == True, 1, 0)
+        df['是否拒量'] = np.where(df.tips.str.contains(r'策略2412|命中自有模型回捞策略|回捞策略250330命中|联合拒量订单') == True, 1, 0)
         return df
 
     # 定义一个函数来计算年龄

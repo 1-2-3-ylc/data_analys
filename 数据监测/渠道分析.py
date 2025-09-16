@@ -243,7 +243,7 @@ class Channel_Analyse:
     def classify_pc(self, path, hour):
         df, df2, df_risk_examine, df_contain = self.run(hour)
         Today = str(datetime.now().strftime('%Y%m%d%H'))
-        print(f'执行定时任务：现在是{Today}的{hour}')
+        print(f'执行定时任务：现在是{Today}')
         # 电脑品类
         classify_list = [125, 126, 127, 185]
         def classify_channel(key, key_classify):

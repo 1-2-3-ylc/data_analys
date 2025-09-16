@@ -153,7 +153,7 @@ if __name__ == '__main__':
     # 每天18点01分开始执行，获取每天18点前的数据
     dy_job = scheduler.add_job(DY_O.douyin_job_save, 'cron', hour=hour, minute=minute, args=[path])
     print('定时任务创建完毕...\n正在执行定时任务douyin_job_save...')
-    # DY_O.douyin_job_save(path)
+    DY_O.douyin_job_save(path)
 
     print(scheduler.get_jobs())
     scheduler.start()

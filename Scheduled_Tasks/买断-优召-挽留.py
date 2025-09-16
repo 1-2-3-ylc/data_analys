@@ -54,7 +54,7 @@ class myw:
         '''
         # 提前买断订单对应期数
         sql_stages = '''
-        select order_id 订单ID, sort 期数 from db_rent.ya_merchant_order_stages where date_format(refund_date, '%Y-%m')='2025-08'
+        select order_id 订单ID, sort 期数 from db_rent.ya_merchant_order_stages where date_format(refund_date, '%Y-%m')='2025-09'
         '''
         # 按发布时间买断订单数
         sql_amd = f'''
