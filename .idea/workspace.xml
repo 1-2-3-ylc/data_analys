@@ -7,25 +7,24 @@
     <list default="true" id="f4222622-5994-45ea-bbc7-462b748e629e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Class_Model/All_Class.py" beforeDir="false" afterPath="$PROJECT_DIR$/Class_Model/All_Class.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Daily_Tasks/iPhone16系列2.0 copy.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Daily_Tasks/iPhone16系列2.0 copy.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Daily_Tasks/temporary_request.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Daily_Tasks/temporary_request.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Daily_Tasks/归还逾期催收(仕程).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Daily_Tasks/归还逾期催收(仕程).ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Daily_Tasks/iPhone16系列 (定时任务).ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Daily_Tasks/iPhone16系列2.0 copy.ipynb" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Daily_Tasks/日报数据-终版（日常需求版2.0）.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Daily_Tasks/日报数据-终版（日常需求版2.0）.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Daily_Tasks/日报数据-自动版.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Daily_Tasks/日报数据-自动版.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Daily_Tasks/特殊需求版.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Daily_Tasks/特殊需求版.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Daily_Tasks/首逾（龙哥需求）.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Daily_Tasks/首逾（龙哥需求）.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scheduled_Tasks/买断-优召-挽留.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scheduled_Tasks/买断-优召-挽留.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scheduled_Tasks/信审每日任务.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scheduled_Tasks/信审每日任务.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Scheduled_Tasks/周报3.0.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Scheduled_Tasks/周报3.0.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scheduled_Tasks/抖音订单数据统计.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scheduled_Tasks/抖音订单数据统计.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Scheduled_Tasks/拒量.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scheduled_Tasks/拒量.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Scheduled_Tasks/搜索灯火.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Scheduled_Tasks/搜索灯火.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scheduled_Tasks/支付宝直播特定时间转化数据.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Scheduled_Tasks/支付宝直播特定时间转化数据.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scheduled_Tasks/每日提醒.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scheduled_Tasks/每日提醒.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scheduled_Tasks/渠道总体分析.py" beforeDir="false" afterPath="$PROJECT_DIR$/Scheduled_Tasks/渠道总体分析.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/review_time/复盘数据碎屏险2(修改版) 4.0.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/review_time/复盘数据碎屏险2(修改版) 4.0.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/timed_task/信审-运营每日数据(每日定时任务).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/timed_task/信审-运营每日数据(每日定时任务).ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/timed_task/线下小店.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/timed_task/线下小店.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/数据监测/微页面活动.py" beforeDir="false" afterPath="$PROJECT_DIR$/数据监测/微页面活动.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/数据监测/渠道分析.py" beforeDir="false" afterPath="$PROJECT_DIR$/数据监测/渠道分析.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/数据监测/转化数据.py" beforeDir="false" afterPath="$PROJECT_DIR$/数据监测/转化数据.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/风控/冰鉴样本.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/风控/冰鉴样本.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/风控/风控监控体系(5).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/风控/风控监控体系(5).ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +122,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="微页面活动" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="渠道分析" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Project_Business" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -137,7 +136,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/数据监测/微页面活动.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/数据监测/渠道分析.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -2678,8 +2677,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.微页面活动" />
         <item itemvalue="Python.转化数据" />
+        <item itemvalue="Python.渠道分析" />
         <item itemvalue="Python.抖音订单数据统计" />
         <item itemvalue="Python.JD_ZFB" />
         <item itemvalue="Python.目标达成率" />
@@ -2760,20 +2759,31 @@
       <workItem from="1754361383243" duration="86562000" />
       <workItem from="1755065327355" duration="12837000" />
       <workItem from="1755162217061" duration="72768000" />
-      <workItem from="1756199955845" duration="85382000" />
+      <workItem from="1756199955845" duration="158572000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project_Business$_.coverage" NAME="日报数据-自动版 Coverage Results" MODIFIED="1739352578544" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Scheduled_Tasks" />
     <SUITE FILE_PATH="coverage/Project_Business$test_love.coverage" NAME="test_love Coverage Results" MODIFIED="1742282138122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Test/标签定义" />
-    <SUITE FILE_PATH="coverage/Project_Business$.coverage" NAME="微页面活动 Coverage Results" MODIFIED="1757311521463" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/数据监测" />
+    <SUITE FILE_PATH="coverage/Project_Business$.coverage" NAME="转化数据 Coverage Results" MODIFIED="1758191650534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/数据监测" />
     <SUITE FILE_PATH="coverage/Project_Business$2_0.coverage" NAME="增长渠道对比分析2.0 Coverage Results" MODIFIED="1750383966877" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Scheduled_Tasks" />
     <SUITE FILE_PATH="coverage/Project_Business$test.coverage" NAME="test Coverage Results" MODIFIED="1736934899392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Class_Model" />
-    <SUITE FILE_PATH="coverage/Project_Business$JD_ZFB.coverage" NAME="JD_ZFB Coverage Results" MODIFIED="1756263201759" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/数据监测" />
-    <SUITE FILE_PATH="coverage/Project_Business$__.coverage" NAME="买断-优召-挽留 Coverage Results" MODIFIED="1756351343008" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Scheduled_Tasks" />
+    <SUITE FILE_PATH="coverage/Project_Business$JD_ZFB.coverage" NAME="JD_ZFB Coverage Results" MODIFIED="1757414180484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/数据监测" />
+    <SUITE FILE_PATH="coverage/Project_Business$__.coverage" NAME="买断-优召-挽留 Coverage Results" MODIFIED="1757930454050" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Scheduled_Tasks" />
   </component>
 </project>

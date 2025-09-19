@@ -371,11 +371,11 @@ if __name__ == '__main__':
     job_sort = scheduler.add_job(rn.my_job_sort, 'cron', month='*', day='1-5', hour=15, minute=1, args=[15, 1, path])
     # 每周一的9点15分开始执行
     job_monday = scheduler.add_job(rn.my_job_monday, 'cron', day_of_week='mon', hour=9, minute=15, args=[9, 15, path])
-    rn.my_job_sort(15, 1, path)
+    # rn.my_job_sort(15, 1, path)
     print('定时任务创建完毕...\n正在执行定时任务my_job...')
     print(scheduler.get_jobs())
     scheduler.start()
-    # rn.my_job(hour, minute, path)
+    rn.my_job(hour, minute, path)
     # rn.my_job_sort(15, 1, path)
     # rn.my_job_monday(9, 15, path)
     # 模拟主程序

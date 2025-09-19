@@ -23,7 +23,7 @@ class Channel_Analyse:
         self.week_models = Week_Model()
         self.clean = Data_Clean()
         # 2025-06-20 设置归属渠道top15
-        self.top15_list = ['京东渠道','芝麻租物','搜索渠道','单人聊天会话中的小程序消息卡片（分享）','八派信息','派金花','抖音渠道','九州信息','我的小程序入口','支付宝直播','其他渠道场景渠道。','小程序商家消息（服务提醒）','生活号','聚量派','宜品花']
+        self.top15_list = ['京东渠道','芝麻租物','搜索渠道','单人聊天会话中的小程序消息卡片（分享）','八派信息','派金花','抖音渠道','九州信息','我的小程序入口','支付宝直播','其他渠道场景渠道。','小程序商家消息（服务提醒）','生活号','宜品花']
         # 替换为你的 Webhook 地址
         self.webhook = "https://oapi.dingtalk.com/robot/send?access_token=d4072f19c1ebe08ea7a71a22df26337eb2fb51327c0ffeac14f8b53b4ed29c78"
         # 替换为你的密钥，如果没有设置则留空
@@ -188,6 +188,28 @@ class Channel_Analyse:
         df_pivot_new.loc['月同比', :] = df_pivot.diff(periods=30 + (days_in_month - 30)).iloc[-1]
 
         return df_pivot_new[self.top15_list].fillna(0)
+    # def get_result(self, df, value, func):
+    #     try:
+    #         # 创建透视表
+    #         df_pivot = pd.pivot_table(df, values=value, index='下单日期', columns='渠道名称', aggfunc=func)
+    #
+    #         # 确保所有top15_list中的列都存在，如果不存在则添加值为0的列
+    #         missing_cols = [col for col in self.top15_list if col not in df_pivot.columns]
+    #         for col in missing_cols:
+    #             df_pivot[col] = 0
+    #
+    #         # 只保留top15_list中的列，并填充缺失值为0
+    #         df_pivot_new = df_pivot[self.top15_list].fillna(0)
+    #
+    #         # 确保列的顺序与top15_list一致
+    #         df_pivot_new = df_pivot_new[self.top15_list]
+    #
+    #         return df_pivot_new
+    #
+    #     except Exception as e:
+    #         print(f"处理数据时出错: {str(e)}")
+    #         # 返回一个空的DataFrame，列名为top15_list
+    #         return pd.DataFrame(columns=self.top15_list)
 
     # 审核时长提醒
     def audit(self, path):
@@ -310,7 +332,7 @@ if __name__ == '__main__':
     # ca.audit(path1)
     # ca.classify_pc(path2, 24)
     # 实时需要，hour为sql中时间区间
-    ca.my_job_channel(path, 18)
+    # ca.my_job_channel(path, 18)
     # ca.my_job_channel(path, 14, path1)
 
     scheduler = BackgroundScheduler()

@@ -98,8 +98,8 @@ class Channel:
         ,"邓媛斤","黄子南","刘莎莎","赖瑞彤","孙子文",'张娜','罗文龙','孔靖','彭康力','何薪华','夏玥','潘佳','包闻天','方全龙','李楠','向圆圆','黄兰娟','林婉婷','廖丽敏','李巧玲','李巧凤','刘三妹','蔡斯静','陈宜诗','陈宝易','林寅钗','谢金凤','刘宏生','骆昌鑫','何静', '李珍珍')
         -- and pa.type!=4
         and  om.create_time >= DATE_ADD(CURRENT_DATE,INTERVAL -15 day )
-        -- and DATE_FORMAT(om.create_time,'%Y-%m-%d')>='2025-04-01'
-        -- and  DATE_FORMAT(om.create_time, '%Y-%m-%d')<='2025-08-14'
+--         and DATE_FORMAT(om.create_time,'%Y-%m-%d')>='2025-06-09'
+--         and  DATE_FORMAT(om.create_time, '%Y-%m-%d')<='2025-07-05'
         and hour(om.create_time)<'{hour}'
         ;
         '''

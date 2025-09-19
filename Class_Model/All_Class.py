@@ -66,11 +66,12 @@ class All_Model:
         df_group_1 = df.groupby(model).agg({'order_id': 'size', '是否进件': 'sum', '前置拦截': 'sum'})  # , '机审通过件': 'sum', '风控通过件': 'sum'
         df_group_1.rename(columns={'order_id': '去重订单数', '是否进件': '进件数'}, inplace=True)
         # 策略241205,策略241212,自有模型回捞策略:2025.8.28：联合拒量订单
-        df_241205 = df[df.tips.str.contains(r'策略241205|策略241212|命中自有模型回捞策略|回捞策略250330命中|联合拒量订单', regex=True)==True]
-        
+        df_241205 = df[df.tips.str.contains(r'策略241205|策略241212|命中自有模型回捞策略|回捞策略250330命中|联合拒量订单|支付宝联合运营订单', regex=True)==True]
+        # 剔除支付宝联合运营订单中拒绝理由为空的记录
+        df_241205 = df_241205[~((df_241205.tips.str.contains('支付宝联合运营订单')) & (df_241205['拒绝理由'].str.strip() != ''))]
         # 拒绝
         df_241205 = df_241205[~df_241205.merchant_name.isin(['小蚂蚁租机', '兴鑫兴通讯', '人人享租', '崇胜数码', '喜卓灵租机', '喜卓灵新租机'])]
-        # 该机审拒量逻辑
+        # 过往机审拒量逻辑
         # df_241205.loc[:, '机审强拒_拒量'] = np.where(df_241205.qvt_risk=='1', 1, 0)
         # 跑4月以来的数据可以这样做，跑历史数据还是需要使用旧逻辑qvt_risk=='1'
         df_241205.loc[:, '机审强拒_拒量'] = np.where(df_241205.order_id.notna(), 1, 0)
@@ -386,7 +387,9 @@ class All_Model:
                     '人审拒绝': 'sum', '客户取消': 'sum', '无法联系': 'sum', '出库前风控强拒': 'sum', '待审核': 'sum',
                     '是否出库': 'sum'})
             df_group.rename(columns={'order_id': '去重订单数', '是否进件': '进件数', '是否出库': '出库'}, inplace=True)
-
+        
+        
+        
         df_group["拦截率"] = df_group["前置拦截"] / df_group["去重订单数"]
         df_group["拦截率"] = df_group["拦截率"].apply(lambda x: format(x, ".2%"))
 
@@ -407,9 +410,14 @@ class All_Model:
 
         df_group["取消率"] = df_group["客户取消"] / df_group["进件数"]
         df_group["取消率"] = df_group["取消率"].apply(lambda x: format(x, ".2%"))
+        # 临时恢复无法联系
+        df_group["无法联系占比"]=df_group["无法联系"]/df_group["进件数"]
+        df_group["无法联系占比"]=df_group["无法联系占比"].apply(lambda x:format(x,".2%"))
+        
+        # 临时添加
+        df_group["出库前强拒比例"] = df_group["出库前风控强拒"] / df_group["进件数"]
+        df_group["出库前强拒比例"] = df_group["出库前强拒比例"].apply(lambda x: format(x, ".2%"))
 
-        # df_group["无法联系占比"]=df_group["无法联系"]/df_group["进件数"]
-        # df_group["无法联系占比"]=df_group["无法联系占比"].apply(lambda x:format(x,".2%"))
 
         df_group["人审拒绝率"] = df_group["人审拒绝"] / df_group["进件数"]
         df_group["人审拒绝率"] = df_group["人审拒绝率"].apply(lambda x: format(x, ".2%"))
@@ -597,11 +605,11 @@ class Data_Clean:
             return "前置拦截"
         elif i == 1 and b == "进件":
             return "机审强拒"
-        elif b == "进件" and c is not np.nan and '已退款' in e:
+        elif b == "进件" and pd.notna(c) and '已退款' in e:
             return "人审拒绝"
-        elif b == "进件" and d is not np.nan:
+        elif b == "进件" and pd.notna(d) and str(d).strip():
             return "客户取消"
-        elif b == "进件" and f is not np.nan:
+        elif b == "进件" and pd.notna(f) and str(f).strip():
             return "无法联系"
         elif b == "进件" and j == 1:
             return "出库前风控强拒"
@@ -615,7 +623,7 @@ class Data_Clean:
             return "出库"
         elif b == "进件" and "已完成" in e:
             return "出库"
-        elif a is np.nan and b == "未进件":
+        elif pd.isna(a) and b == "未进件":
             return "未进件"
         elif b == "未进件":
             return "进件前取消"
@@ -674,6 +682,8 @@ class Data_Clean:
             df = df[~((df.机审通过件==1)&(df.tips.str.contains('命中自有模型回捞策略', regex=False)==True))]
             df = df[~((df.机审通过件==1)&(df.tips.str.contains('回捞策略250330命中', regex=False)==True))]
             df = df[~((df.机审通过件==1)&(df.tips.str.contains('联合拒量订单', regex=False)==True))]
+            # to_do支付宝联合运营订单不为拒量
+            # df = df[~((df.机审通过件==1)&(df.tips.str.contains('支付宝联合运营订单', regex=False)==True))]
         return df
 
     # 订单去重
@@ -705,9 +715,9 @@ class Data_Clean:
         # 删除重复订单
         df.drop_duplicates(subset=["order_id"], inplace=True)
         df.drop_duplicates(subset=["true_name", "user_mobile", "id_card_num", "下单日期"], keep="last", inplace=True)
-        df.drop(df[df['true_name'].isin(
-            ["刘鹏", "谢仕程", "潘立", "洪柳", "陈锦奇", "周杰", "卢腾标", "孔靖", "黄娟", "钟福荣", "邱锐杰", "唐林华"
-                , "邓媛斤", "黄子南", "刘莎莎", "赖瑞彤", "孙子文", '淦文豪', '杨明豪', '闫宇龙'])].index, inplace=True)
+        # df.drop(df[df['true_name'].isin(
+        #     [" ", "谢仕程", "潘立", "洪柳", "陈锦奇", "周杰", "卢腾标", "孔靖", "黄娟", "钟福荣", "邱锐杰", "唐林华"
+        #         , "邓媛斤", "黄子南", "刘莎莎", "赖瑞彤", "孙子文", '淦文豪', '杨明豪', '闫宇龙'])].index, inplace=True)
         return df
 
     # 填充日期不连续的数据
@@ -1241,7 +1251,7 @@ class Risk_Data:
 
         f_zx_xs_jf_ra_gf_df_hm_zr_lshm_cf_cf2 = pd.merge(df_zx_xs_jf_ra_gf_df_hm_zr_lshm_cf, df_cf2, on=model, how='outer')
 
-        # 命中特殊地区 新建|西藏
+        # 命中特殊地区 新疆|西藏
         df_diqu = df[(df["total_describes"].notnull()) & (df["status2"] == "订单取消") & (
             df["total_describes"].str.contains("命中特殊地区"))].groupby(model).agg(
             {"order_id": np.size}).reset_index()

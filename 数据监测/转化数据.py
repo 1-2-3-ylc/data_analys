@@ -213,50 +213,134 @@ class Conversion_Data:
 
 
     # 数据异常提醒
+    # def data_tips(self, df, df2, df_risk_examine, model, model_list, keys):
+    #     today = datetime.now().strftime('%Y-%m-%d')
+    #     # 获取所需数据集
+    #     df = df[(df[f'{model}'].isin(model_list))&(df.下单日期>=(datetime.now()-timedelta(days=2)))]
+    #     df2 = df2[(df2[f'{model}'].isin(model_list))&(df2.下单日期>=(datetime.now()-timedelta(days=2)))]
+    #     # 设置提醒值
+    #     df_qc_num = 0.1
+    #     df_jj_num = 0.05
+    #     df_ck_num = 0.015
+    #     # 获取去重和进件的异常信息
+    #     def get_message(df1, value, func, key, num, col_name):
+    #         message_qc = ''
+    #         # 透视表
+    #         df_qc = pd.pivot_table(df1, values=value, columns=f'{col_name}', index='下单日期', aggfunc=func)
+    #         df_qc_list = df_qc.columns.to_list()
+    #         # 循环到每个列名并获取每个列名是否超出异常值
+    #         for qc in df_qc_list:
+    #             qc_num = df_qc[qc].pct_change().iloc[-1]
+    #             if qc_num < -num:
+    #                 if model=='商品ID':
+    #                     message_qc += f'''{qc}的{key}环比为：{str(round(qc_num * 100, 2)) + '%'}，跌出{str(round(num * 100, 2)) + '%'}，警报！警报！警报！\n'''
+    #                 else:
+    #                     message_qc += f'''{qc}的{key}环比为：{str(round(qc_num * 100, 2)) + '%'}，跌出{str(round(num * 100, 2)) + '%'}，警报！警报！警报！\n'''
+    #         return message_qc
+    #     # 去重订单
+    #     # message_qc = get_message(df, 'order_id', 'count', '去重订单数', df_qc_num)
+    #     # 进件
+    #     message_jj = get_message(df, '是否进件', 'sum', '进件数', df_jj_num, model)
+    #     # 出库
+    #     df_ck_group = self.all_model.data_group(df, df2, df_risk_examine, [f'{model}', '下单日期'])
+    #     df_ck_group.loc[:, '出库率'] = pd.to_numeric(df_ck_group['总体进件出库率（含拒量）'].str.replace('%', '').str.replace('nan', '0')) / 100
+    #     df_ck_group = df_ck_group.reset_index()
+    #     message_ck = ''
+    #     # 循环列名值，获取每个出库商品的异常信息
+    #     for models in model_list:
+    #         ck_num = df_ck_group[df_ck_group[f'{model}']==models].出库率.diff().iloc[-1]
+    #         if ck_num < -df_ck_num:
+    #             if model=='商品ID':
+    #                 message_ck += f'''{models}的出库率环比为：{str(round(ck_num * 100, 2)) + '%'}，跌出{str(round(df_ck_num * 100, 2)) + '%'}，警报！警报！警报！\n'''
+    #             else:
+    #                 message_ck += f'''{models}的出库率环比为：{str(round(ck_num * 100, 2)) + '%'}，跌出{str(round(df_ck_num * 100, 2)) + '%'}，警报！警报！警报！\n'''
+    #     message = f'{keys}\n'+message_jj+message_ck
+    #     # 调用机器人发送信息函数
+    #     self.clean.send_dingtalk_message(self.webhook, self.secret, message)
     def data_tips(self, df, df2, df_risk_examine, model, model_list, keys):
-        today = datetime.now().strftime('%Y-%m-%d')
-        # 获取所需数据集
-        df = df[(df[f'{model}'].isin(model_list))&(df.下单日期>=(datetime.now()-timedelta(days=2)))]
-        df2 = df2[(df2[f'{model}'].isin(model_list))&(df2.下单日期>=(datetime.now()-timedelta(days=2)))]
-        # 设置提醒值
-        df_qc_num = 0.1
-        df_jj_num = 0.05
-        df_ck_num = 0.015
-        # 获取去重和进件的异常信息
-        def get_message(df1, value, func, key, num, col_name):
-            message_qc = ''
-            # 透视表
-            df_qc = pd.pivot_table(df1, values=value, columns=f'{col_name}', index='下单日期', aggfunc=func)
-            df_qc_list = df_qc.columns.to_list()
-            # 循环到每个列名并获取每个列名是否超出异常值
-            for qc in df_qc_list:
-                qc_num = df_qc[qc].pct_change().iloc[-1]
-                if qc_num < -num:
-                    if model=='商品ID':
-                        message_qc += f'''{qc}的{key}环比为：{str(round(qc_num * 100, 2)) + '%'}，跌出{str(round(num * 100, 2)) + '%'}，警报！警报！警报！\n'''
+        try:
+            today = datetime.now().strftime('%Y-%m-%d')
+            # 获取所需数据集
+            df = df[(df[f'{model}'].isin(model_list)) & (df.下单日期 >= (datetime.now() - timedelta(days=2)))]
+            df2 = df2[(df2[f'{model}'].isin(model_list)) & (df2.下单日期 >= (datetime.now() - timedelta(days=2)))]
+
+            # 检查数据是否为空
+            if df.empty or df2.empty:
+                print(f"警告：{keys} - 没有足够的数据进行分析")
+                return
+
+            # 设置提醒值
+            df_qc_num = 0.1
+            df_jj_num = 0.05
+            df_ck_num = 0.015
+
+            # 获取去重和进件的异常信息
+            def get_message(df1, value, func, key, num, col_name):
+                try:
+                    message_qc = ''
+                    # 透视表
+                    df_qc = pd.pivot_table(df1, values=value, columns=f'{col_name}', index='下单日期', aggfunc=func)
+                    if df_qc.empty:
+                        return message_qc
+
+                    df_qc_list = df_qc.columns.to_list()
+                    # 循环到每个列名并获取每个列名是否超出异常值
+                    for qc in df_qc_list:
+                        if len(df_qc[qc]) >= 2:  # 确保至少有两行数据才能计算环比
+                            qc_num = df_qc[qc].pct_change().iloc[-1]
+                            if qc_num < -num:
+                                if model == '商品ID':
+                                    message_qc += f'''{qc}的{key}环比为：{str(round(qc_num * 100, 2)) + '%'}，跌出{str(round(num * 100, 2)) + '%'}，警报！警报！警报！\n'''
+                                else:
+                                    message_qc += f'''{qc}的{key}环比为：{str(round(qc_num * 100, 2)) + '%'}，跌出{str(round(num * 100, 2)) + '%'}，警报！警报！警报！\n'''
+                    return message_qc
+                except Exception as e:
+                    print(f"获取{key}信息时出错: {str(e)}")
+                    return ""
+
+            # 去重订单
+            # message_qc = get_message(df, 'order_id', 'count', '去重订单数', df_qc_num)
+            # 进件
+            message_jj = get_message(df, '是否进件', 'sum', '进件数', df_jj_num, model)
+
+            # 出库
+            try:
+                df_ck_group = self.all_model.data_group(df, df2, df_risk_examine, [f'{model}', '下单日期'])
+                if df_ck_group.empty:
+                    print(f"警告：{keys} - 出库数据为空")
+                    return
+
+                df_ck_group.loc[:, '出库率'] = pd.to_numeric(
+                    df_ck_group['总体进件出库率（含拒量）'].str.replace('%', '').str.replace('nan', '0')) / 100
+                df_ck_group = df_ck_group.reset_index()
+                message_ck = ''
+
+                # 循环列名值，获取每个出库商品的异常信息
+                for models in model_list:
+                    model_data = df_ck_group[df_ck_group[f'{model}'] == models]
+                    if not model_data.empty and len(model_data) >= 2:
+                        ck_num = model_data['出库率'].diff().iloc[-1]
+                        if ck_num < -df_ck_num:
+                            if model == '商品ID':
+                                message_ck += f'''{models}的出库率环比为：{str(round(ck_num * 100, 2)) + '%'}，跌出{str(round(df_ck_num * 100, 2)) + '%'}，警报！警报！警报！\n'''
+                            else:
+                                message_ck += f'''{models}的出库率环比为：{str(round(ck_num * 100, 2)) + '%'}，跌出{str(round(df_ck_num * 100, 2)) + '%'}，警报！警报！警报！\n'''
                     else:
-                        message_qc += f'''{qc}的{key}环比为：{str(round(qc_num * 100, 2)) + '%'}，跌出{str(round(num * 100, 2)) + '%'}，警报！警报！警报！\n'''
-            return message_qc
-        # 去重订单
-        # message_qc = get_message(df, 'order_id', 'count', '去重订单数', df_qc_num)
-        # 进件
-        message_jj = get_message(df, '是否进件', 'sum', '进件数', df_jj_num, model)
-        # 出库
-        df_ck_group = self.all_model.data_group(df, df2, df_risk_examine, [f'{model}', '下单日期'])
-        df_ck_group.loc[:, '出库率'] = pd.to_numeric(df_ck_group['总体进件出库率（含拒量）'].str.replace('%', '').str.replace('nan', '0')) / 100
-        df_ck_group = df_ck_group.reset_index()
-        message_ck = ''
-        # 循环列名值，获取每个出库商品的异常信息
-        for models in model_list:
-            ck_num = df_ck_group[df_ck_group[f'{model}']==models].出库率.diff().iloc[-1]
-            if ck_num < -df_ck_num:
-                if model=='商品ID':
-                    message_ck += f'''{models}的出库率环比为：{str(round(ck_num * 100, 2)) + '%'}，跌出{str(round(df_ck_num * 100, 2)) + '%'}，警报！警报！警报！\n'''
-                else:
-                    message_ck += f'''{models}的出库率环比为：{str(round(ck_num * 100, 2)) + '%'}，跌出{str(round(df_ck_num * 100, 2)) + '%'}，警报！警报！警报！\n'''
-        message = f'{keys}\n'+message_jj+message_ck
-        # 调用机器人发送信息函数
-        self.clean.send_dingtalk_message(self.webhook, self.secret, message)
+                        print(f"警告：{models} 没有足够的数据进行出库率分析")
+
+                message = f'{keys}\n' + message_jj + message_ck
+                if message.strip() == keys:  # 如果没有警报信息
+                    print(f"提示：{keys} - 没有发现异常数据")
+                    return
+
+                # 调用机器人发送信息函数
+                self.clean.send_dingtalk_message(self.webhook, self.secret, message)
+
+            except Exception as e:
+                print(f"处理出库数据时出错: {str(e)}")
+
+        except Exception as e:
+            print(f"处理{keys}数据时出错: {str(e)}")
 
     def run(self, date, hour):
         df, df_risk, df_risk_examine, df_re, df_ra = self.select_data(date, hour)
@@ -456,6 +540,7 @@ class Conversion_Data:
 
     # 机型转化——月度
     def month_model(self, hour, minute, path, hours, is_current_month=False):
+
         # 根据is_current_month参数决定获取当月还是上个月的数据
         if is_current_month:
             # 如果是获取当月数据，使用当前月份的第一天
@@ -467,28 +552,35 @@ class Conversion_Data:
         today = datetime.now().strftime('%Y%m%d')
         print(f'执行定时任务：现在是{today}的{hour}点{minute}分...')
         print('正在查询数据...')
+    # 执行数据查询，获取多个DataFrame
         df, df_risk, df_risk_examine, df_re, df_ra = self.run(date, hours)
         print('数据查询完毕！\n正在清理数据...')
+    # 清理数据，返回两个DataFrame
         df, df2 = self.clean_data(df, df_risk, df_re, df_ra)
         print('数据清理完毕！\n正在计算机型转化数据...')
+    # 筛选非二手数据
         df = df[df.是否二手 == 0]
         df2 = df2[df2.是否二手 == 0]
         def channel(df, df2):
+
+        # 对数据进行分组统计
             df_model_group = self.all_model.data_group(df[:-1], df2[:-1], df_risk_examine, '机型内存')
+        # 计算出库量（包含拒量出库）
             df_model_group.loc[:, '出库'] = df_model_group.出库 + df_model_group.拒量出库
+        # 选择需要的列并填充空值为0，按去重订单数降序排序
             df_model_group = df_model_group[
                 ["去重订单数", "前置拦截", "拦截率", "进件数", "预授权通过率", "机审强拒", "强拒比例", "机审通过件",
                  "人审拒绝", "风控通过件", "风控通过率", "客户取消", "无法联系",
                  "出库前风控强拒", "待审核", '出库', '总体进件出库率（含拒量）', '取消率', '人审拒绝率', '出库前强拒比例',
                  '无法联系占比', '订单出库率']].fillna(0).sort_values(by='去重订单数', ascending=False)
             return df_model_group
-        # 总体
+        # 总体数据处理
         df_model_group = channel(df, df2)
-        # 芝麻租物
+        # 芝麻租物渠道数据处理
         df_zm = df[df.归属渠道=='芝麻租物']
         df2_zm = df2[df2.归属渠道=='芝麻租物']
         df_model_group_zm = channel(df_zm, df2_zm)
-        # 京东渠道
+        # 京东渠道数据处理
         df_jd = df[df.归属渠道 == '京东渠道']
         df2_jd = df2[df2.归属渠道 == '京东渠道']
         df_model_group_jd = channel(df_jd, df2_jd)
@@ -538,7 +630,7 @@ if __name__ == '__main__':
     minute = 10
     path = r'\\digua\迪瓜租机\002数据监测\3.转化数据/'
     path1 = r'\\digua\迪瓜租机\002数据监测\9.京东每月签收订单明细/'
-    # cd.zfb_order(9, minute, path, 24)
+    cd.zfb_order(9, minute, path, 24)
     # cd.jd_job(10, 15, path, 24)
     # cd.my_job(hour, minute, path, 18)
     print('正在创建定时任务...')
@@ -559,9 +651,9 @@ if __name__ == '__main__':
     )
 
     # 每月1号10点1分开始执行
-    job_jd_month = scheduler.add_job(cd.jd_qs_order_by_month, CronTrigger(day=1, hour=10, minute=1), args=[10, 1, path1])
-
-    # cd.month_model(11, 1, path, 24, False)
+    # job_jd_month = scheduler.add_job(cd.jd_qs_order_by_month, CronTrigger(day=1, hour=10, minute=1), args=[10, 1, path1])
+    # True表示获取当月数据
+    # cd.month_model(10, 1, path, 24, True)
 
     # cd.jd_qs_order_by_month(10, 1, path1)
     print('定时任务创建完毕...\n正在执行定时任务...')
@@ -575,7 +667,7 @@ if __name__ == '__main__':
             next_run_time_jd = job_jd.next_run_time
             next_run_time_zfb = job_zfb.next_run_time
             next_run_time_month = job_month.next_run_time
-            next_run_time_jd_month = job_jd_month.next_run_time
+            next_run_time_jd_month = job_month_current.next_run_time
             if next_run_time:
                 now = datetime.now(timezone.utc)
                 sleep_duration = (next_run_time - now).total_seconds()

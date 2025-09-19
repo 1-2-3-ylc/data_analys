@@ -128,15 +128,15 @@ if __name__ == '__main__':
     T = Tips()
     # s = T.run()
     # print(s)
-    hour = 9
+    hour = 15
     minute = 1
     # path1 = 'F:/需求/到期订单/'
     path1 = r'\\digua\迪瓜租机\13.每日扣款提醒/'
     # 实时手动跑
-    T.my_job(hour, minute, path1)
+    # T.my_job(hour, minute, path1)
     print('正在创建定时任务...')
     scheduler = BackgroundScheduler()
-    # 每天9点01分开始执行
+    # 每天15点01分开始执行
     job = scheduler.add_job(T.my_job, 'cron', hour=hour, minute=minute, args=[hour, minute, path1])
     print('定时任务创建完毕...\n正在执行定时任务my_job...')
     print(scheduler.get_jobs())
