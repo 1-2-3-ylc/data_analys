@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4222622-5994-45ea-bbc7-462b748e629e" name="Changes" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Class_Model/All_Class.py" beforeDir="false" afterPath="$PROJECT_DIR$/Class_Model/All_Class.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Daily_Tasks/iPhone16系列 (定时任务).ipynb" beforeDir="false" />
@@ -25,6 +26,170 @@
       <change beforePath="$PROJECT_DIR$/数据监测/微页面活动.py" beforeDir="false" afterPath="$PROJECT_DIR$/数据监测/微页面活动.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/数据监测/渠道分析.py" beforeDir="false" afterPath="$PROJECT_DIR$/数据监测/渠道分析.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/数据监测/转化数据.py" beforeDir="false" afterPath="$PROJECT_DIR$/数据监测/转化数据.py" afterDir="false" />
+=======
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Class_Model/All_Class.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Class_Model/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Class_Model/表大小.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/1_毛利润计算5.0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/512分析.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/iPhone16系列 (定时任务).ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/iPhone16系列2.0 copy.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/temporary_request.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/test.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/临时分析需求(1)（）.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/临时分析需求（）.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/买断优惠券.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/买断分析.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/京东复盘数据（sku、spu）.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/促买断（）.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/信审-运营每日数据(每日定时任务).ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/信审-运营每日数据.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/到期订单.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/取消订单每日数据.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/复租.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/差异化优惠金额.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/归属渠道（九州八派）转化数据.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/归还逾期催收(仕程).ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/快捷下单和非快捷下单的发货率(自营、商家).ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/投保订单.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/提前买断数据.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/支付率.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/数据比对.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/数据需求.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/日报数据-终版（日常需求版2.0）.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/日报数据-自动版.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/模型监控.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/毛利润计算5.0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/渠道分析.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/特殊需求版.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/白名单优化4.0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/白名单转化统计.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/百融（）.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/租后业务量.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/租后表分析数据_ld_八派九洲 copy.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/租后表分析数据_ld_模板_改好spd_total1017(2.0).ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/租后表分析数据_改版 copy 3.0(2)().ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/租售比.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/签收时间数据.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/精准户籍地的逾期订单.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/自动扣款 _免审核样本_切流50%0930_2.0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/自动扣款4.0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/芝麻商品转化数据（瑞彤.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/资方完结订单数据.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/资方数据统计(1).ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/资方数据统计_山东融越.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/资方数据统计（）.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/运营数据.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/钉钉机器人.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/首逾（龙哥需求）.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Daily_Tasks/黑名单.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/0927强拒.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/48小时发货率.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/iPhone16系列 (定时任务).ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/买断-优召-挽留.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/信审每日任务.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/信审每日分配.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/到期买断.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/到期订单 （修改版2.0）.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/到期订单.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/到期订单_仕程.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/到期订单_数量统计.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/匹配手机号.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/取消订单每日数据.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/取消订单每日数据.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/周报3.0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/增长渠道对比分析2.0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/增长渠道对比分析2.0.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/抖音订单数据统计.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/拒量.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/搜索灯火.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/搜索灯火.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/支付宝交易流水.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/日报数据-(业务量数据）.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/日报数据-终版.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/日报数据-自动版.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/日报数据-（到期数据2.0）.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/日报数据-（到期数据3.0）.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/日报数据-（到期数据）.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/日报数据-（到期数据）_fpd.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/未还款清单.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/每日提醒.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/渠道总体分析.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/统计分析.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/统计小程序发货率.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/统计小程序发货率.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/联通号卡.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/风控拒绝原因.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scheduled_Tasks/风险指标定时播报.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/.vscode/settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Class_Model/All_Class.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Class_Model/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Class_Model/表大小.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/JD_ZFB.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/买断-优召-挽留.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/京东复盘数据.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/信审每日任务.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/信审每日分配.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/发货率(1).py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/取消订单每日数据.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/复租.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/归还逾期.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/微页面活动.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/拒量.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/日常需求终版2.0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/日报数据-自动版(2).ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/机型转化.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/每日提醒.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/渠道分析.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/渠道总体分析.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/特殊需求版.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/目标达成率.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/签收时间数据.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/转化数据.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/风险指标定时播报.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/Daily_Tasks/首逾.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/phone_transfrom/复盘数据碎屏险2(修改版)_日常数据导出 .ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/review_by_month/周报3.0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/item/review_by_month/复盘数据碎屏险2(修改版) 4.0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/review_time/hello_world.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/review_time/周报3.0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/review_time/复盘数据碎屏险2(修改版) 4.0.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/review_time/复盘数据碎屏险2(修改版)_日常数据导出 .ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/timed_task/信审-运营每日数据(每日定时任务).ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/timed_task/线下小店.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/数据监测/JD_ZFB.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/数据监测/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/数据监测/发货率.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/数据监测/微页面活动.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/数据监测/渠道分析.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/数据监测/渠道分析.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/数据监测/目标达成率.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/数据监测/转化数据.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/0_risk_日报风控数据_new.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/1_租后表分析20250429.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/2.model_func.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/fk.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/三方数据产品分析.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/三方数据产品分析code模版.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/京东强拒数据验证.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/写入数据库.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/冰鉴样本.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/手机三要素.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/租后表现分析代码示例.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/风控监控体系(1).ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/风控监控体系(3).ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/风控监控体系(4).ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/风控/风控监控体系(5).ipynb" afterDir="false" />
+>>>>>>> 671163d8a85b74b6fd2d16a1bd3f0057d8633cc6
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +356,11 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+<<<<<<< HEAD
     <configuration name="JD_ZFB" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+=======
+    <configuration name="未还款清单" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+>>>>>>> 671163d8a85b74b6fd2d16a1bd3f0057d8633cc6
       <module name="Project_Business" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -200,12 +369,16 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/数据监测" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Scheduled_Tasks" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+<<<<<<< HEAD
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/数据监测/JD_ZFB.py" />
+=======
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Scheduled_Tasks/未还款清单.py" />
+>>>>>>> 671163d8a85b74b6fd2d16a1bd3f0057d8633cc6
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -2677,11 +2850,19 @@
     </configuration>
     <recent_temporary>
       <list>
+<<<<<<< HEAD
         <item itemvalue="Python.转化数据" />
         <item itemvalue="Python.渠道分析" />
         <item itemvalue="Python.抖音订单数据统计" />
         <item itemvalue="Python.JD_ZFB" />
         <item itemvalue="Python.目标达成率" />
+=======
+        <item itemvalue="Python.渠道分析" />
+        <item itemvalue="Python.发货率" />
+        <item itemvalue="Python.信审每日任务" />
+        <item itemvalue="Python.未还款清单" />
+        <item itemvalue="Python.转化数据" />
+>>>>>>> 671163d8a85b74b6fd2d16a1bd3f0057d8633cc6
       </list>
     </recent_temporary>
   </component>
@@ -2758,8 +2939,12 @@
       <workItem from="1754192538458" duration="11308000" />
       <workItem from="1754361383243" duration="86562000" />
       <workItem from="1755065327355" duration="12837000" />
+<<<<<<< HEAD
       <workItem from="1755162217061" duration="72768000" />
       <workItem from="1756199955845" duration="158572000" />
+=======
+      <workItem from="1755162217061" duration="50707000" />
+>>>>>>> 671163d8a85b74b6fd2d16a1bd3f0057d8633cc6
     </task>
     <servers />
   </component>
@@ -2780,7 +2965,11 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project_Business$_.coverage" NAME="日报数据-自动版 Coverage Results" MODIFIED="1739352578544" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Scheduled_Tasks" />
     <SUITE FILE_PATH="coverage/Project_Business$test_love.coverage" NAME="test_love Coverage Results" MODIFIED="1742282138122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Test/标签定义" />
+<<<<<<< HEAD
     <SUITE FILE_PATH="coverage/Project_Business$.coverage" NAME="转化数据 Coverage Results" MODIFIED="1758191650534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/数据监测" />
+=======
+    <SUITE FILE_PATH="coverage/Project_Business$.coverage" NAME="拒量 Coverage Results" MODIFIED="1755847955568" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Scheduled_Tasks" />
+>>>>>>> 671163d8a85b74b6fd2d16a1bd3f0057d8633cc6
     <SUITE FILE_PATH="coverage/Project_Business$2_0.coverage" NAME="增长渠道对比分析2.0 Coverage Results" MODIFIED="1750383966877" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Scheduled_Tasks" />
     <SUITE FILE_PATH="coverage/Project_Business$test.coverage" NAME="test Coverage Results" MODIFIED="1736934899392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Class_Model" />
     <SUITE FILE_PATH="coverage/Project_Business$JD_ZFB.coverage" NAME="JD_ZFB Coverage Results" MODIFIED="1757414180484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/数据监测" />
