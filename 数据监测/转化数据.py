@@ -5,6 +5,7 @@ import numpy as np
 import pymysql
 import warnings
 import gc
+import json
 from apscheduler.triggers.cron import CronTrigger
 from dateutil.utils import today
 
@@ -31,7 +32,7 @@ class Conversion_Data:
                 SELECT om.create_time,om.id as order_id ,om.order_number,om.status, date(om.create_time) as create_date
                 ,case om.`status` when  1 then "待支付" when  2 then "待发货" when  3 then "待收货" when  4 then "租赁中" when  5 then "待归还" 
                 when  6 then "待商家收货" when  7 then "退押中" when  8 then "已完成" when  10 then "已退款" when  11 then "待退押金" when  12 then "待审核" 
-                when  13 then "订单取消" when  15 then "检测中" when  9999 then "逾期订单" end as status2 
+                when  13 then "订单取消" when  15 then "检测中" when  9999 then "逾期订单" else "其他订单" end as status2 
                 ,tod.sku_attributes,tod.product_name,tod.new_actual_money
                 ,om.user_mobile,tmu.true_name,tmu.id_card_num
                 ,top.total_describes
@@ -358,7 +359,8 @@ class Conversion_Data:
                     where 
                     -- date_format(tojo.create_time, '%Y-%m-%d')>='2025-08-01'
                     -- and date_format(tojo.create_time, '%Y-%m-%d')<='2025-08-31'
-                    tojo.create_time>=date_add(current_date, interval - 15 day) and tojo.create_time<current_date
+                    tojo.create_time>=date_add(current_date, interval - 15 day) 
+                    and tojo.create_time<current_date
                 '''
         df_jd = self.clean.query(sql_jd)
 
@@ -380,7 +382,8 @@ class Conversion_Data:
         # 如果需要更改时间，还需要改这儿date_add(current_date, interval - 31 day)
         # tojr.request_json like '%IN_THE_LEASE%'表已签收，不含拒收
         sql_jd_md = '''
-        select distinct o.order_number, od.new_actual_money 买断价, tojr.create_time from db_digua_business.t_order as o 
+        select distinct o.order_number, od.new_actual_money 买断价, tojr.create_time, tojr.request_json
+        from db_digua_business.t_order as o 
         left join db_digua_business.t_order_details as od on o.id = od.order_id 
         left join db_digua_business.t_order_jd_request tojr on tojr.order_number=o.order_number
         where 
@@ -390,11 +393,26 @@ class Conversion_Data:
         and tojr.request_json like '%IN_THE_LEASE%'
         '''
         df_jd_md = self.clean.query(sql_jd_md)
-        df_jd_md = df_jd_md.sort_values(by='create_time', ascending=False).groupby('order_number').head(1)
-        df_jd_md.loc[:, '同步日期'] = df_jd_md.create_time.dt.strftime('%Y-%m-%d')
+        df_jd_md = df_jd_md.sort_values(by='create_time', ascending=True).groupby('order_number').head(1)
+        # df_jd_md.loc[:, '同步日期'] = df_jd_md.create_time.dt.strftime('%Y-%m-%d')
+        df_jd_md.loc[:, '同步日期'] = pd.to_datetime(df_jd_md.create_time.dt.strftime('%Y-%m-%d'))
+        # 获取签收时间 2025-09-23
+        df_jd_md.loc[:, 'orderSignTime'] = df_jd_md['request_json'].apply(
+            lambda x: json.loads(x)['orderSignTime'] if pd.notna(x) and x != '' else None
+        )
+        # 只需要日期部分
+        df_jd_md['orderSignTime'] = pd.to_datetime(df_jd_md['orderSignTime'])
+        df_jd_md['sign_date'] = df_jd_md['orderSignTime'].dt.date
+        # 筛选sign_date大于等于同步日期的数据，避免计入补推的订单
+        df_jd_md = df_jd_md[df_jd_md['sign_date'] >= df_jd_md['同步日期']]
         df_jd_md.loc[:, '买断价均值'] = df_jd_md.买断价
         df_jd_md.loc[:, '合计买断价'] = df_jd_md.买断价
-        df_jd_md_group = df_jd_md.groupby('同步日期').agg({'买断价均值': 'mean', '合计买断价': 'sum'})
+        # df_jd_md.loc[:, '下单日期'] = df_jd_md['同步日期']
+        # df_jd_md_group = df_jd_md.groupby('同步日期').agg({'买断价均值': 'mean', '合计买断价': 'sum'})2025-09-22添加字段签收数
+        df_jd_md_group = df_jd_md.groupby('同步日期').agg(
+            {'order_number': 'count', '买断价均值': 'mean', '合计买断价': 'sum'}).rename(
+            columns={'order_number': '签收数'})
+        df_jd_md_group.index = df_jd_md_group.index.strftime('%Y-%m-%d')
         # 计算京东的去重，待发货，已发货和买断价数据
         df_jd_new.loc[:, '待发货'] = np.where((df_jd_new.status=='TO_SEND_GOODS')& (df_jd_new.status2=='待发货'), 1, 0)
         df_jd_new.loc[:, '已发货'] = np.where(df_jd_new.status.isin(['IN_DELIVERY', 'IN_THE_LEASE']), 1, 0)
@@ -630,7 +648,7 @@ if __name__ == '__main__':
     minute = 10
     path = r'\\digua\迪瓜租机\002数据监测\3.转化数据/'
     path1 = r'\\digua\迪瓜租机\002数据监测\9.京东每月签收订单明细/'
-    cd.zfb_order(9, minute, path, 24)
+    # cd.zfb_order(9, minute, path, 24)
     # cd.jd_job(10, 15, path, 24)
     # cd.my_job(hour, minute, path, 18)
     print('正在创建定时任务...')

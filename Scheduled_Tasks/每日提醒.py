@@ -133,7 +133,7 @@ if __name__ == '__main__':
     # path1 = 'F:/需求/到期订单/'
     path1 = r'\\digua\迪瓜租机\13.每日扣款提醒/'
     # 实时手动跑
-    # T.my_job(hour, minute, path1)
+    T.my_job(hour, minute, path1)
     print('正在创建定时任务...')
     scheduler = BackgroundScheduler()
     # 每天15点01分开始执行

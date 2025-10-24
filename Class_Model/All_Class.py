@@ -62,11 +62,11 @@ class All_Model:
         :param model: 需要分组的类型
         :return: 返回分组后的数据
         '''
-        # 包含拒量的数据
+        # 包含拒量和联合拒量订单|支付宝联合运营订的数据
         df_group_1 = df.groupby(model).agg({'order_id': 'size', '是否进件': 'sum', '前置拦截': 'sum'})  # , '机审通过件': 'sum', '风控通过件': 'sum'
         df_group_1.rename(columns={'order_id': '去重订单数', '是否进件': '进件数'}, inplace=True)
         # 策略241205,策略241212,自有模型回捞策略:2025.8.28：联合拒量订单
-        df_241205 = df[df.tips.str.contains(r'策略241205|策略241212|命中自有模型回捞策略|回捞策略250330命中|联合拒量订单|支付宝联合运营订单', regex=True)==True]
+        df_241205 = df[df.tips.str.contains(r'策略241205|策略241212|命中自有模型回捞策略|回捞策略250330命中|联合拒量订单|支付宝联合运营', regex=True)==True]
         # 剔除支付宝联合运营订单中拒绝理由为空的记录
         df_241205 = df_241205[~((df_241205.tips.str.contains('支付宝联合运营订单')) & (df_241205['拒绝理由'].str.strip() != ''))]
         # 拒绝
@@ -74,8 +74,20 @@ class All_Model:
         # 过往机审拒量逻辑
         # df_241205.loc[:, '机审强拒_拒量'] = np.where(df_241205.qvt_risk=='1', 1, 0)
         # 跑4月以来的数据可以这样做，跑历史数据还是需要使用旧逻辑qvt_risk=='1'
-        df_241205.loc[:, '机审强拒_拒量'] = np.where(df_241205.order_id.notna(), 1, 0)
-        df_241205.loc[:, '出库前强拒_拒量'] = np.where(((df_241205.qvt_risk == '0')|(df_241205.qvt_risk.isna()))&(df_241205.qvt_result == '1'), 1, 0)
+        df_241205.loc[:, '机审强拒_拒量'] = np.where(df_241205.order_id.notna(), 1, 0)        
+        
+        # df_241205.loc[:, '出库前强拒_拒量'] = np.where(((df_241205.qvt_risk == '0')|(df_241205.qvt_risk.isna()))&(df_241205.qvt_result == '1'), 1, 0)
+        # 如果订单为联合拒量订单或支付宝联合运营订单，则出库前强拒_拒量为0，即不计入出库前强拒，修改时间：2025-09-22
+        df_241205.loc[:, '出库前强拒_拒量'] = np.where(
+            ((df_241205['qvt_risk'] == '0') | (df_241205['qvt_risk'].isna())) & 
+            (df_241205['qvt_result'] == '1') & 
+            (~df_241205['tips'].str.contains(r'联合拒量订单|支付宝联合运营订单', na=False)), 
+            1, 0)
+        
+        # 如果订单为联合拒量订单或支付宝联合运营订单且是否出库列为1，则是否出库置为0，即不计入拒量出库数，修改时间：2025-09-22
+        df_241205.loc[:, '是否出库'] = np.where((df_241205.tips.str.contains(r'联合拒量订单|支付宝联合运营订单', na=False)) & (df_241205['是否出库'] == 1), 
+        0, df_241205['是否出库'])
+        
         df_241205_group = df_241205.groupby(model).agg({'机审强拒_拒量': 'sum', '出库前强拒_拒量': 'sum', '是否出库': 'sum'})
         df_241205_group.rename(columns={'是否出库': '拒量出库'}, inplace=True)
 

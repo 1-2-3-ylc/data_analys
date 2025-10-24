@@ -332,7 +332,7 @@ if __name__ == '__main__':
     # ca.audit(path1)
     # ca.classify_pc(path2, 24)
     # 实时需要，hour为sql中时间区间
-    # ca.my_job_channel(path, 18)
+    ca.my_job_channel(path, 18)
     # ca.my_job_channel(path, 14, path1)
 
     scheduler = BackgroundScheduler()

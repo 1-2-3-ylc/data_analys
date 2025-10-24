@@ -229,7 +229,8 @@ class Rejected_Number:
 
     # 获取拒量（回捞）数据
     def get_data(self, df, df_name):
-        df_jl_new = df[df.tips.str.contains(r'策略2412|命中自有模型回捞策略|回捞策略250330命中') == True]
+        # df_jl_new = df[df.tips.str.contains(r'策略2412|命中自有模型回捞策略|回捞策略250330命中') == True]
+        df_jl_new = df[(df.tips.str.contains(r'策略2412|命中自有模型回捞策略|回捞策略250330命中')==True)&(~df['tips'].str.contains(r'联合拒量订单|支付宝联合运营订单', na=False))]
         df_jl_new = df_jl_new[~df_jl_new.merchant_name.isin(['小蚂蚁租机', '人人享租', '崇胜数码', '喜卓灵租机', '兴鑫兴通讯', '喜卓灵新租机'])]
         df_jl_new['策略命中等级'] = df_jl_new['tips'].str.extract(r'(策略241205命中\(\d+\)?|策略241212命中\(\d+\)?|命中自有模型回捞策略|回捞策略250330命中?)')[0]
         # 进件数，出库数，出库率，风险等级
@@ -360,7 +361,7 @@ if __name__ == '__main__':
     minute = 30
     path = r'\\digua\迪瓜租机\22.拒量数据/'
     rn = Rejected_Number()
-    # rn.my_job_monday(9, 15, path)
+    rn.my_job_monday(9, 15, path)
     print('正在创建定时任务...')
     scheduler = BackgroundScheduler()
     # 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun' 或数字 0-6（0 表示周日，1 表示周一，依此类推）。
@@ -375,7 +376,7 @@ if __name__ == '__main__':
     print('定时任务创建完毕...\n正在执行定时任务my_job...')
     print(scheduler.get_jobs())
     scheduler.start()
-    rn.my_job(hour, minute, path)
+    # rn.my_job(hour, minute, path)
     # rn.my_job_sort(15, 1, path)
     # rn.my_job_monday(9, 15, path)
     # 模拟主程序

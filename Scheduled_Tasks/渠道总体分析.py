@@ -371,6 +371,62 @@ class Channel:
         df_jd_group_new = df_no_drop_jd_g.merge(df_jd_group_new, on='下单日期', how='inner')
         return df_jd_group_new
 
+    # def jd(self, df_no_drop, df, df2, df_risk_examine):
+    #     try:
+    #         # 初始化一个空的DataFrame作为默认返回值
+    #         result_df = pd.DataFrame(
+    #             columns=['下单日期', '创建订单数', '创建进件数', '去重订单数', '前置拦截', '拦截率',
+    #                      '进件数', '预授权通过率', '机审强拒', '强拒比例', '机审通过件',
+    #                      '人审拒绝', '风控通过件', '风控通过率', '客户取消', '无法联系',
+    #                      '出库前风控强拒', '待审核', '出库', '进件出库率', '取消率',
+    #                      '人审拒绝率', '出库前强拒比例', '无法联系占比', '订单出库率'])
+    #
+    #         # 获取京享租右卡活动数据
+    #         df_no_drop_jd = df_no_drop[df_no_drop.来源渠道 == '京享租右卡']
+    #         if df_no_drop_jd.empty:
+    #             print("警告：没有找到京享租右卡的数据")
+    #             return result_df
+    #
+    #         df_no_drop_jd.loc[:, '创建进件数'] = np.where(df_no_drop_jd.进件 == '进件', 1, 0)
+    #         df_no_drop_jd_g = df_no_drop_jd.groupby('下单日期').agg({'order_id': 'count', '创建进件数': 'sum'}).rename(
+    #             columns={'order_id': '创建订单数'})
+    #
+    #         df_jd_yk = df[df['来源渠道'] == '京享租右卡']
+    #         df_jd2_yk = df2[df2['来源渠道'] == '京享租右卡']
+    #
+    #         if df_jd_yk.empty or df_jd2_yk.empty:
+    #             print("警告：没有找到京享租右卡的进件数据")
+    #             return df_no_drop_jd_g  # 返回只有创建订单数和创建进件数的数据
+    #
+    #         df_jd_group = self.all_models.data_group(df_jd_yk, df_jd2_yk, df_risk_examine, '下单日期')
+    #         if df_jd_group.empty:
+    #             print("警告：京享租右卡的数据分组结果为空")
+    #             return df_no_drop_jd_g  # 返回只有创建订单数和创建进件数的数据
+    #
+    #         df_jd_group = df_jd_group[
+    #             ["去重订单数", "前置拦截", "拦截率", "进件数", "预授权通过率", "机审强拒", "强拒比例", "机审通过件",
+    #              "人审拒绝", "风控通过件", "风控通过率", "客户取消", "无法联系", "出库前风控强拒", "待审核",
+    #              '出库', '进件出库率', '取消率', '人审拒绝率', '出库前强拒比例',
+    #              '无法联系占比', '订单出库率']].fillna(0)
+    #
+    #         df_jd_group_new = df_jd_group.reset_index()
+    #         df_jd_group_new = df_no_drop_jd_g.merge(df_jd_group_new, on='下单日期', how='inner')
+    #
+    #         if df_jd_group_new.empty:
+    #             print("警告：合并后的京享租右卡数据为空")
+    #             return df_no_drop_jd_g  # 返回只有创建订单数和创建进件数的数据
+    #
+    #         return df_jd_group_new
+    #
+    #     except Exception as e:
+    #         print(f"处理京享租右卡数据时出错: {str(e)}")
+    #         # 返回一个空的DataFrame，包含所有需要的列
+    #         return pd.DataFrame(columns=['下单日期', '创建订单数', '创建进件数', '去重订单数', '前置拦截', '拦截率',
+    #                                      '进件数', '预授权通过率', '机审强拒', '强拒比例', '机审通过件',
+    #                                      '人审拒绝', '风控通过件', '风控通过率', '客户取消', '无法联系',
+    #                                      '出库前风控强拒', '待审核', '出库', '进件出库率', '取消率',
+    #                                      '人审拒绝率', '出库前强拒比例', '无法联系占比', '订单出库率'])
+
     def jd2(self, df_no_drop, df, df2, df_risk_examine):
         # 获取京东618活动数据
         df_no_drop_jd = df_no_drop[df_no_drop.来源渠道 == '京东618活动']
@@ -387,6 +443,8 @@ class Channel:
         df_jd_group_new = df_jd_group.reset_index()
         df_jd_group_new2 = df_no_drop_jd_g.merge(df_jd_group_new, on='下单日期', how='inner')
         return df_jd_group_new2
+
+
 
     def jd3(self, df_no_drop, df_risk, df_re, df_ra):
         # 获取京东渠道不去重的数据
