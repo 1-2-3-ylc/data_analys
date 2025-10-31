@@ -78,8 +78,8 @@ class Conversion_Data:
                 ,"邓媛斤","黄子南","刘莎莎","赖瑞彤","孙子文",'张娜','罗文龙','孔靖','彭康力','何薪华','夏玥','潘佳','包闻天','方全龙','李楠','向圆圆','黄兰娟','林婉婷','廖丽敏','李巧玲','李巧凤','刘三妹','蔡斯静','陈宜诗','陈宝易','林寅钗','谢金凤','刘宏生','骆昌鑫','何静', '李珍珍')
                 and  date_format(om.create_time, '%Y-%m-%d')>='{date}'
                 and hour(om.create_time)<'{hour}'
-                -- and date_format(om.create_time, '%Y-%m-%d')>='2025-08-01'
-                -- and date_format(om.create_time, '%Y-%m-%d')<='2025-08-31'
+                -- and date_format(om.create_time, '%Y-%m-%d')>='2025-10-08'
+                -- and date_format(om.create_time, '%Y-%m-%d')<='2025-10-14'
                 ;
                 '''
         df_order = self.clean.query(sql1)
@@ -113,6 +113,7 @@ class Conversion_Data:
         df_order.loc[:, 'phone_name'] = df_order.phone_name.str.replace(' ', '').str.extract(r'(iPhone\d+(ProMax|Pro|Plus)?)')[0]
         df_order = df_order.merge(df_upv, left_on=['scene', 'create_date'], right_on=['scene', 'c_date'], how='left')
         df_order.loc[:,'商品ID'] = df_order.商品ID.astype(str)+'_'+df_order.phone_name
+
 
 
         return df_order, df_risk, df_risk_examine, df_re, df_ra
@@ -446,6 +447,7 @@ class Conversion_Data:
         df, df_risk, df_risk_examine, df_re, df_ra = self.run(date, hours)
         print('数据查询完毕！\n正在清理数据...')
         df, df2 = self.clean_data(df, df_risk, df_re, df_ra)
+        print(df.shape)
         print('数据清理完毕！\n正在计算机型转化数据...')
         # 总体
         df_model_group_now, df_model_group_7, df_model_group_15 = self.conversion_model(df, df2, df_risk_examine, '机型内存')
@@ -457,23 +459,29 @@ class Conversion_Data:
         df_model_group_now_zm, df_model_group_7_zm, df_model_group_15_zm = self.conversion_model(df_zm, df2_zm, df_risk_examine, '机型内存')
         model_list_zm = df_model_group_15_zm.sort_values(by='去重订单数', ascending=False).head(10).index.to_list()
         self.data_tips(df_zm, df2_zm, df_risk_examine, '机型内存', model_list_zm, '芝麻租物')
-        # 芝麻租物
+        # 京东渠道
         df_jd = df[df.归属渠道 == '京东渠道']
         df2_jd = df2[df2.归属渠道 == '京东渠道']
         df_model_group_now_jd, df_model_group_7_jd, df_model_group_15_jd = self.conversion_model(df_jd, df2_jd, df_risk_examine, '机型内存')
         model_list_jd = df_model_group_15_jd.sort_values(by='去重订单数', ascending=False).head(10).index.to_list()
         self.data_tips(df_jd, df2_jd, df_risk_examine, '机型内存', model_list_jd, '京东渠道')
         print('机型转化数据计算完毕！\n正在计算商品ID转化数据...')
-        id_list = ['6710_iPhone16', '6711_iPhone16Plus', '6712_iPhone16Pro', '6713_iPhone16ProMax', '7681_iPhone16ProMax', '7682_iPhone16Pro', '7683_iPhone16Plus', '7684_iPhone16', '6752_iPhone16', '6756_iPhone16ProMax', '6757_iPhone16Pro']
+        # 已下架：'6711_iPhone16Plus', '7683_iPhone16Plus'
+        id_list_zm = ['8592_iPhone17ProMax', '8593_iPhone17Pro', '8594_iPhone17', '8600_iPhone17ProMax', '8601_iPhone17Pro', '8602_iPhone17'
+            , '6710_iPhone16', '6712_iPhone16Pro', '6713_iPhone16ProMax', '7681_iPhone16ProMax', '7682_iPhone16Pro', '7684_iPhone16']
+        id_list_ss = ['6752_iPhone16', '6756_iPhone16ProMax', '6757_iPhone16Pro'
+            , '6691_iPhone16ProMax', '6690_iPhone16Pro', '6688_iPhone16'
+            , '8563_iPhone17ProMax', '8564_iPhone17Pro', '8565_iPhone17']
         # 芝麻
-        df_zm_uv = df[df.商品ID.isin(id_list[:-3])]
-        df2_zm_uv = df2[df2.商品ID.isin(id_list[:-3])]
+        df_zm_uv = df[df.商品ID.isin(id_list_zm[:])]
+        df2_zm_uv = df2[df2.商品ID.isin(id_list_zm[:])]
         df_zm_uv, df_zm_uv_7, df_zm_uv_15 = self.conversion_model(df_zm_uv, df2_zm_uv, df_risk_examine, '商品ID')
         # 搜索
-        df_ss_uv = df[df.商品ID.isin(id_list[-3:])]
-        df2_ss_uv = df2[df2.商品ID.isin(id_list[-3:])]
+        df_ss_uv = df[df.商品ID.isin(id_list_ss[:])]
+        df2_ss_uv = df2[df2.商品ID.isin(id_list_ss[:])]
         df_ss_uv, df_ss_uv_7, df_ss_uv_15 = self.conversion_model(df_ss_uv, df2_ss_uv, df_risk_examine, '商品ID')
-        self.data_tips(df, df2, df_risk_examine, '商品ID', id_list, '商品ID_芝麻租物')
+        self.data_tips(df, df2, df_risk_examine, '商品ID', id_list_zm[:], '商品ID_芝麻租物')
+        self.data_tips(df, df2, df_risk_examine, '商品ID', id_list_ss[:], '商品ID_搜索渠道')
         print('商品ID转化数据计算完毕！')
 
         print('正在写入数据...')
@@ -618,24 +626,35 @@ class Conversion_Data:
         print(f'执行定时任务：现在是{today}的{hour}点{minute}分...')
         print('正在查询数据...')
         sql_jd_by_month = '''
-                select distinct o.order_number, od.new_actual_money 买断价, tojr.create_time from db_digua_business.t_order as o 
+                select distinct o.order_number, od.new_actual_money 买断价, tojr.create_time, tojr.request_json
+                from db_digua_business.t_order as o 
                 left join db_digua_business.t_order_details as od on o.id = od.order_id 
                 left join db_digua_business.t_order_jd_request tojr on tojr.order_number=o.order_number
                 where 
-                -- date_format(tojr.create_time, '%Y-%m-%d')>='2025-07-01'
-                -- and date_format(tojr.create_time, '%Y-%m-%d')<='2025-08-05'
-                tojr.create_time>=date_add(current_date, interval -1 month)
+                date_format(tojr.create_time, '%Y-%m-%d')>='2025-09-01'
+                and date_format(tojr.create_time, '%Y-%m-%d')<='2025-09-30'
+                -- tojr.create_time>=date_add(current_date, interval -1 month)
                 and tojr.request_json like '%IN_THE_LEASE%'
                 '''
         df_jd_by_month = self.clean.query(sql_jd_by_month)
         df_jd_by_month = df_jd_by_month.sort_values(by='create_time', ascending=False).groupby('order_number').head(1)
-        df_jd_by_month.loc[:, '同步日期'] = df_jd_by_month.create_time.dt.strftime('%Y-%m-%d')
+        df_jd_by_month.loc[:, '同步日期'] = pd.to_datetime(df_jd_by_month.create_time.dt.strftime('%Y-%m-%d'))
+
+        df_jd_by_month.loc[:, 'orderSignTime'] = df_jd_by_month['request_json'].apply(
+            lambda x: json.loads(x)['orderSignTime'] if pd.notna(x) and x != '' else None
+        )
+        # 只需要日期部分
+        df_jd_by_month['orderSignTime'] = pd.to_datetime(df_jd_by_month['orderSignTime'])
+        df_jd_by_month['sign_date'] = df_jd_by_month['orderSignTime'].dt.date
+        # 筛选sign_date大于等于同步日期之间的数据
+        df_jd_by_month = df_jd_by_month[df_jd_by_month['sign_date'] >= df_jd_by_month['同步日期']]
+
         # df_jd_by_month.loc[:, '合计买断价'] = df_jd_by_month.买断价
         df_jd_by_month.rename(columns={'order_number': '订单号','买断价':'合计买断价'}, inplace=True)
 
         print('京东每月签收订单数据计算完毕！\n正在写入数据...')
-        with pd.ExcelWriter(path + f'京东每月签收订单数据_{today}.xlsx', engine='xlsxwriter') as writer:
-            df_jd_by_month.to_excel(writer, sheet_name='京东月签收订单数据', index=False)
+        with pd.ExcelWriter(path + f'京东每月签收订单数据1_{today}.xlsx', engine='xlsxwriter') as writer:
+            df_jd_by_month[['订单号', '合计买断价', 'create_time', '同步日期']].to_excel(writer, sheet_name='京东月签收订单数据', index=False)
 
         print('数据写入完毕！')
         del df_jd_by_month
@@ -669,7 +688,7 @@ if __name__ == '__main__':
     )
 
     # 每月1号10点1分开始执行
-    # job_jd_month = scheduler.add_job(cd.jd_qs_order_by_month, CronTrigger(day=1, hour=10, minute=1), args=[10, 1, path1])
+    job_jd_month = scheduler.add_job(cd.jd_qs_order_by_month, CronTrigger(day=1, hour=10, minute=1), args=[10, 1, path1])
     # True表示获取当月数据
     # cd.month_model(10, 1, path, 24, True)
 

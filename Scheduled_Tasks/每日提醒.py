@@ -106,7 +106,7 @@ class Tips:
             '小晚': '周莹',
             '小芳': '罗芳',
         }
-        name_list = ['罗文龙', '何静', '刘三妹', '杨健', '林思慧', '胡彩滢', '周汉鸿', '廖丽敏', '黄兰娟', '周莹', '邹巧巧', '冯二祥','罗芳', '魏朵','周念慈',]
+        name_list = ['罗文龙', '何静', '刘三妹', '杨健', '林思慧', '胡彩滢', '周汉鸿', '廖丽敏', '黄兰娟', '周莹', '邹巧巧', '冯二洋','罗芳', '魏朵','周念慈','洪佳祥']
         # 匹配映射字典
         df_xs_merge.loc[:, 'name'] = df_xs_merge.分配人.apply(lambda x: name_dict[x] if str(x).startswith('小') and str(x) in name_dict.keys() else x)
         df_xs_merge = df_xs_merge[df_xs_merge.name.isin(name_list)]

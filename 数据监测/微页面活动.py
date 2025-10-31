@@ -26,7 +26,7 @@ class Small_Page:
         count(user_id) pv, count(distinct user_id) uv
         from page p
         left join db_digua_business.t_small_page tsp on tsp.id=p.page_id
-        where page_id in (224,190,174,162,260,232,44,265, 267, 272, 282, 284, 287, 288) 
+        where page_id in (224,190,174,162,260,232,44,265, 267, 272, 282, 284, 286, 287, 288, 292, 295, 297) 
         and 创建日期>='{date}' and 创建日期<current_date
         GROUP BY 创建日期,page_id
         '''
@@ -77,7 +77,7 @@ if __name__ == '__main__':
     minute = 15
     path = r'\\digua\迪瓜租机\002数据监测\5.活动页面/'
     sp = Small_Page()
-    sp.my_job(hour, minute, path)
+    # sp.my_job(hour, minute, path)
     scheduler = BackgroundScheduler()
     # 每天9点15开始执行
     job_channel = scheduler.add_job(sp.my_job, 'cron', hour=hour, minute=minute, args=[hour, minute, path])

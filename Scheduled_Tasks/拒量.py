@@ -258,12 +258,21 @@ class Rejected_Number:
         df_jl_stages_new.loc[:, 'now_day'] = pd.to_datetime(datetime.now().strftime('%Y-%m-%d'))
         df_jl_stages_new.loc[:, 'reality_refund_date'] = pd.to_datetime(df_jl_stages_new.reality_refund_date.dt.strftime('%Y-%m-%d'))
         # 逾期天数：实还日期不为空且实还日期大于应还日期，用实还日期-应还日期；否则应还日期小于当前日期，用当前日期-应还日期
+        # df_jl_stages_new.loc[:, 'overdue_day'] = np.where(df_jl_stages_new.reality_refund_date.notna(),
+        #                                                 np.where(df_jl_stages_new.reality_refund_date > df_jl_stages_new.refund_date,
+        #                                                         (df_jl_stages_new.reality_refund_date - df_jl_stages_new.refund_date),0)
+        #                                                 , np.where(df_jl_stages_new.refund_date > df_jl_stages_new.now_day, 0,
+        #                                                         (df_jl_stages_new.now_day - df_jl_stages_new.refund_date)))
+        # 计算逾期天数
         df_jl_stages_new.loc[:, 'overdue_day'] = np.where(df_jl_stages_new.reality_refund_date.notna(),
                                                         np.where(df_jl_stages_new.reality_refund_date > df_jl_stages_new.refund_date,
-                                                                (df_jl_stages_new.reality_refund_date - df_jl_stages_new.refund_date),0)
-                                                        , np.where(df_jl_stages_new.refund_date > df_jl_stages_new.now_day, 0,
-                                                                (df_jl_stages_new.now_day - df_jl_stages_new.refund_date)))
-        df_jl_stages_new.loc[:, 'overdue_day'] = df_jl_stages_new['overdue_day'].apply(lambda x: x.days)
+                                                            (df_jl_stages_new.reality_refund_date - df_jl_stages_new.refund_date).dt.days,
+                                                            0), np.where(df_jl_stages_new.refund_date > df_jl_stages_new.now_day, 0,
+                                                            (df_jl_stages_new.now_day - df_jl_stages_new.refund_date).dt.days))
+        # df_jl_stages_new.loc[:, 'overdue_day'] = df_jl_stages_new['overdue_day'].apply(lambda x: x.days)
+        df_jl_stages_new.loc[:, 'overdue_day'] = df_jl_stages_new['overdue_day'].apply(
+            lambda x: x.days if isinstance(x, pd.Timedelta) else 0)
+
         df_jl_stages_news = df_jl_stages_new[['order_id', 'order_number', '下单日期', 'refund_date', 'reality_refund_date', 'overdue_day','status2']].rename(columns={'order_id': '订单id', 'order_number': '订单号', 'refund_date': '应还日期','reality_refund_date': '实还日期', 'overdue_day': '逾期天数'})
         df_jl_stages_news = df_jl_stages_news.merge(df_name_new[['order_id', '分配人']], left_on='订单id',right_on='order_id', how='left')
         df_jl_stages_news.loc[:, '是否逾期'] = np.where((df_jl_stages_news.status2 == '租赁中') & (df_jl_stages_news.实还日期.isna()) & (df_jl_stages_news.逾期天数 > 0), 1, 0)
@@ -361,7 +370,7 @@ if __name__ == '__main__':
     minute = 30
     path = r'\\digua\迪瓜租机\22.拒量数据/'
     rn = Rejected_Number()
-    rn.my_job_monday(9, 15, path)
+    # rn.my_job_monday(9, 15, path)
     print('正在创建定时任务...')
     scheduler = BackgroundScheduler()
     # 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun' 或数字 0-6（0 表示周日，1 表示周一，依此类推）。

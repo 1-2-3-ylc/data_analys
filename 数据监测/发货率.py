@@ -174,7 +174,7 @@ if __name__ == '__main__':
     minute = 30
     path = r'\\digua\迪瓜租机\002数据监测\2.发货率/'
     r = Rate()
-    r.my_job(hour, minute, path)
+    # r.my_job(hour, minute, path)
 
     print('正在创建定时任务...')
     scheduler = BackgroundScheduler()

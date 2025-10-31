@@ -70,7 +70,7 @@ class All_Model:
         # 剔除支付宝联合运营订单中拒绝理由为空的记录
         df_241205 = df_241205[~((df_241205.tips.str.contains('支付宝联合运营订单')) & (df_241205['拒绝理由'].str.strip() != ''))]
         # 拒绝
-        df_241205 = df_241205[~df_241205.merchant_name.isin(['小蚂蚁租机', '兴鑫兴通讯', '人人享租', '崇胜数码', '喜卓灵租机', '喜卓灵新租机'])]
+        df_241205 = df_241205[~df_241205.merchant_name.isin(['小蚂蚁租机', '兴鑫兴通讯', '人人享租', '崇胜数码', '喜卓灵租机', '喜卓灵新租机', '云启德曜'])]
         # 过往机审拒量逻辑
         # df_241205.loc[:, '机审强拒_拒量'] = np.where(df_241205.qvt_risk=='1', 1, 0)
         # 跑4月以来的数据可以这样做，跑历史数据还是需要使用旧逻辑qvt_risk=='1'
@@ -170,6 +170,32 @@ class All_Model:
         df_241205 = df_241205[~df_241205.merchant_name.isin(['小蚂蚁租机', '兴鑫兴通讯', '人人享租', '崇胜数码', '喜卓灵租机', '喜卓灵新租机'])]
         df_241205.loc[:, '机审强拒_拒量'] = np.where(df_241205.qvt_risk=='1', 1, 0)
         df_241205.loc[:, '出库前强拒_拒量'] = np.where(((df_241205.qvt_risk == '0')|(df_241205.qvt_risk.isna()))&(df_241205.qvt_result == '1'), 1, 0)
+        df_241205_group = df_241205.groupby(model).agg({'机审强拒_拒量': 'sum', '出库前强拒_拒量': 'sum', '是否出库': 'sum'})
+        df_241205_group.rename(columns={'是否出库': '拒量出库'}, inplace=True)
+        
+        # # 策略241205,策略241212,自有模型回捞策略:2025.8.28：联合拒量订单
+        # df_241205 = df[df.tips.str.contains(r'策略241205|策略241212|命中自有模型回捞策略|回捞策略250330命中|联合拒量订单|支付宝联合运营', regex=True)==True]
+        # # 剔除支付宝联合运营订单中拒绝理由为空的记录
+        # df_241205 = df_241205[~((df_241205.tips.str.contains('支付宝联合运营订单')) & (df_241205['拒绝理由'].str.strip() != ''))]
+        # # 拒绝
+        # df_241205 = df_241205[~df_241205.merchant_name.isin(['小蚂蚁租机', '兴鑫兴通讯', '人人享租', '崇胜数码', '喜卓灵租机', '喜卓灵新租机', '云启德曜'])]
+        # # 过往机审拒量逻辑
+        # # df_241205.loc[:, '机审强拒_拒量'] = np.where(df_241205.qvt_risk=='1', 1, 0)
+        # # 跑4月以来的数据可以这样做，跑历史数据还是需要使用旧逻辑qvt_risk=='1'
+        # df_241205.loc[:, '机审强拒_拒量'] = np.where(df_241205.order_id.notna(), 1, 0)        
+        
+        # # df_241205.loc[:, '出库前强拒_拒量'] = np.where(((df_241205.qvt_risk == '0')|(df_241205.qvt_risk.isna()))&(df_241205.qvt_result == '1'), 1, 0)
+        # # 如果订单为联合拒量订单或支付宝联合运营订单，则出库前强拒_拒量为0，即不计入出库前强拒，修改时间：2025-09-22
+        # df_241205.loc[:, '出库前强拒_拒量'] = np.where(
+        #     ((df_241205['qvt_risk'] == '0') | (df_241205['qvt_risk'].isna())) & 
+        #     (df_241205['qvt_result'] == '1') & 
+        #     (~df_241205['tips'].str.contains(r'联合拒量订单|支付宝联合运营订单', na=False)), 
+        #     1, 0)
+        
+        # 如果订单为联合拒量订单或支付宝联合运营订单且是否出库列为1，则是否出库置为0，即不计入拒量出库数，修改时间：2025-09-22
+        df_241205.loc[:, '是否出库'] = np.where((df_241205.tips.str.contains(r'联合拒量订单|支付宝联合运营订单', na=False)) & (df_241205['是否出库'] == 1), 
+        0, df_241205['是否出库'])
+        
         df_241205_group = df_241205.groupby(model).agg({'机审强拒_拒量': 'sum', '出库前强拒_拒量': 'sum', '是否出库': 'sum'})
         df_241205_group.rename(columns={'是否出库': '拒量出库'}, inplace=True)
         
@@ -647,7 +673,7 @@ class Data_Clean:
         '''
         删除商家数据
         :param df: 传入带有商家的数据
-        :return: 返回剔除了商家的数据
+        :return: 返回剔除了商家的数据 将在进件剔除商家数据
         '''
         # 剔除商家数据只保留自营租机业务数据
         df.drop(df[df['merchant_name'] == "深圳优优大数据科技有限公司"].index, inplace=True)
@@ -672,6 +698,8 @@ class Data_Clean:
         
         df.drop(df[df['merchant_name'] == "星晟数码"].index, inplace=True)
         df.drop(df[df['merchant_name'] == "蘑菇时间"].index, inplace=True)
+        # df.drop(df[df['merchant_name'] == "云启德曜"].index, inplace=True) # 拒量
+        df.drop(df[df['merchant_name'] == "艾欧尼亚数码"].index, inplace=True)
 
         df.drop(df[df['merchant_name'].str.contains(pat='探路者', regex=False) == True].index, inplace=True)
         return df
@@ -685,9 +713,9 @@ class Data_Clean:
         # df.drop(df[df['merchant_name'] == "喜卓灵租机"].index, inplace=True)
         # df.drop(df[df['merchant_name'] == "喜卓灵新租机"].index, inplace=True)
         # 将多行drop操作合并为一行
-        reject_merchants = ["小蚂蚁租机", "兴鑫兴通讯", "人人享租", "崇胜数码", "喜卓灵租机", "喜卓灵新租机"]
+        reject_merchants = ["小蚂蚁租机", "兴鑫兴通讯", "人人享租", "崇胜数码", "喜卓灵租机", "喜卓灵新租机", "云启德曜"]
         df.drop(df[df['merchant_name'].isin(reject_merchants)].index, inplace=True)
-                
+        # 将在出库剔除
         if '机审通过件' in df.columns:
             df = df[~((df.机审通过件 == 1) & (df.tips.str.contains(r'策略241205') == True))]
             df = df[~((df.机审通过件==1)&(df.tips.str.contains('策略241212', regex=False)==True))]
@@ -718,6 +746,7 @@ class Data_Clean:
         df.dropna(subset=["id_card_num"], axis=0, inplace=True)
         # 去刷单订单
         df.drop(df[df['total_describes'].str.contains(pat='panli', regex=False) == True].index, inplace=True)
+        # 曙光计划和线下小店是同分异构体
         df.drop(df[df['activity_name'] == "1000单秘密计划"].index, inplace=True)
         df.drop(df[df['activity_name'] == "1000单秘密计划-无优惠"].index, inplace=True)
         df.drop(df[df['activity_name'] == "1000单曙光计划"].index, inplace=True)

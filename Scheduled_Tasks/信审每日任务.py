@@ -132,7 +132,7 @@ if __name__ == '__main__':
     scheduler.start()
 
 
-    scheduled.my_job(hour, minute, path)
+    # scheduled.my_job(hour, minute, path)
     # 模拟主程序
     try:
         while True:

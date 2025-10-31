@@ -158,7 +158,7 @@ class myw:
         #      'all_rental': 'mean', 'all_deposit': 'mean', '买断价': 'sum'}).rename(
         #     columns={'id': '发布优召订单数', 'purchase_amount': '采购成本', 'all_rental': '总租金均值',
         #              'all_deposit': '总押金均值'})
-
+        df_yz.loc[:, '最大分期金额'] = df_yz.groupby('order_id')['分期金额'].transform('max').fillna(0)
         df_yz = df_yz.sort_values('优惠订单创建时间', ascending=False).groupby('id_card_num').head(1)
         # df_yz = df_yz.drop_duplicates(subset=['id_card_num'])
         df_yz["下单日期"] = df_yz["下单时间"].dt.date
@@ -175,7 +175,7 @@ class myw:
         df_yz.loc[:, '优惠券金额'] = np.where(
             (df_yz.discount_status == 'Y') & (df_yz.use_type == 1) & (df_yz.type == 5), df_yz.tdi_money,
             np.where((df_yz.discount_status == 'Y') & (df_yz.use_type == 2) & (df_yz.type == 5),
-                     df_yz.分期金额 * (1 - df_yz.tdi_money / 100), 0)
+                     df_yz.最大分期金额 * (1 - df_yz.tdi_money / 100), 0)
         )
         df_yz.loc[:, '买断价'] = np.where(df_yz.出库订单数 == 1, df_yz.new_actual_money, 0)
         df_yz.loc[:, '采购成本'] = np.where(df_yz.出库订单数 == 1, df_yz.purchase_amount, 0)
@@ -238,7 +238,7 @@ class myw:
 if __name__ == '__main__':
     myw = myw()
     hour = 10
-    minute = 30
+    minute = 31
     path = r'\\digua\迪瓜租机\22.买断-优召-挽留/'
     # 实时
     # myw.my_job(hour, minute, path, 7, 'day')

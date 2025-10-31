@@ -336,7 +336,7 @@ class Channel:
         df_lhyy = df[df.union_rent_tag=='Y']
         df2_lhyy = df2[df2.union_rent_tag=='Y']
 
-        df_group = self.all_models.data_group(df_lhyy, df2_lhyy, df_risk_examine, '下单日期')
+        df_group = self.all_models.data_group_contain_hl(df_lhyy, df2_lhyy, df_risk_examine, '下单日期')
         df_group = df_group[["去重订单数", "前置拦截", "拦截率", "进件数", "预授权通过率", "机审强拒", "强拒比例", "机审通过件",
                   "人审拒绝", "风控通过件", "风控通过率", "客户取消", "无法联系",
                   "出库前风控强拒", "待审核", '出库', '进件出库率', '取消率', '人审拒绝率', '出库前强拒比例',
@@ -483,7 +483,7 @@ class Channel:
         print('数据获取完毕...')
         return df_all2, df_ss_group2, df_zm_group2,df, df2,df_risk_examine, df_lhyy_group, info, df_jd_group_new, df_jd_group_new2, df_jd_group_new3
 
-    # 设置钉钉机器人发送消息,联合运营（已停止）
+    # # 设置钉钉机器人发送消息,联合运营（）
     # def send_dingtalk_message(self, webhook, secret, message):
     #     # 计算签名（如果有设置）
     #     if secret:
@@ -551,7 +551,7 @@ class Channel:
 
 if __name__ == '__main__':
     hour = 18
-    minute = 9
+    minute = 5
     # hour2 = 10
     # minute2 = 6
     hour_jd = 18
