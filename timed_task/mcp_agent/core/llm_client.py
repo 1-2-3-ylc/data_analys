@@ -2,7 +2,7 @@
 Author: 1-2-3-ylc 1245936974@qq.com
 Date: 2025-11-07 16:45:19
 LastEditors: 1-2-3-ylc 1245936974@qq.com
-LastEditTime: 2025-11-07 16:48:37
+LastEditTime: 2025-11-12 17:09:58
 FilePath: \Project_Business、timed_task\mcp_agent\core\llm_client.py
 Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 '''
@@ -21,6 +21,7 @@ class LLMClient:
             base_url=LLM_BASE_URL
         )
         self.model = LLM_MODEL
+        
 
     def chat_completion(self, messages: List[Dict[str, str]], tools: Optional[List[Dict]] = None) -> Dict[str, Any]:
         """
@@ -42,7 +43,7 @@ class LLMClient:
             if tools:
                 kwargs["tools"] = tools
                 kwargs["tool_choice"] = "auto"
-            
+            # 调用LLM
             response = self.client.chat.completions.create(**kwargs)
             return response.choices[0].message.model_dump()
         except Exception as e:

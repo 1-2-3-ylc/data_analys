@@ -12,10 +12,18 @@ app = FastAPI(
 # 添加CORS中间件
 app.add_middleware(
     CORSMiddleware,
+    # 明确允许的前端域名
     allow_origins=["*"],
+    # 2. 是否允许携带凭证（如Cookies、认证头）
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    # 3. 明确允许的HTTP方法（仅开放业务必需的）
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    # 4. 明确允许的请求头（仅开放业务必需的）
+    allow_headers=[
+        "Content-Type",  # 标准头（JSON/表单提交必需）
+        "Authorization", # 认证头（如JWT Token）
+        "X-Custom-Header"  # 自定义业务头（如有）
+    ],
 )
 
 app.include_router(api_router, prefix="/api")
